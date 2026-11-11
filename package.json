@@ -1,0 +1,26 @@
+{
+  "name": "tidal-mcp",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.9.0",
+  "engines": {
+    "node": ">=24.11.1"
+  },
+  "scripts": {
+    "generate": "pnpm --filter @tidal-mcp/tidal-api generate",
+    "spec:update": "pnpm --filter @tidal-mcp/tidal-api spec:update",
+    "typecheck": "pnpm -r typecheck && tsc -p tsconfig.json",
+    "test": "pnpm -r test",
+    "dev": "alchemy dev",
+    "deploy": "alchemy deploy",
+    "destroy": "alchemy destroy"
+  },
+  "devDependencies": {
+    "@alchemy.run/cloudflare": "2.0.0-beta.85",
+    "@tidal-mcp/worker": "workspace:*",
+    "@types/node": "^24.10.0",
+    "alchemy": "2.0.0-beta.85",
+    "effect": "4.1.2",
+    "typescript": "^7.0.2"
+  }
+}

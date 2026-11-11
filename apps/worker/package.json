@@ -1,0 +1,34 @@
+{
+  "name": "@tidal-mcp/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker serving the TIDAL MCP server over Streamable HTTP",
+  "exports": {
+    ".": "./src/Worker.ts",
+    "./Database": "./src/Database.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "auth:generate": "node scripts/auth-generate.ts"
+  },
+  "dependencies": {
+    "@alchemy.run/cloudflare": "2.0.0-beta.85",
+    "@better-auth/cimd": "^1.7.18",
+    "@better-auth/mcp": "^1.7.18",
+    "@better-auth/oauth-provider": "^1.7.18",
+    "@tidal-mcp/mcp": "workspace:*",
+    "@tidal-mcp/tidal-api": "workspace:*",
+    "better-auth": "^1.7.18",
+    "effect": "4.1.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261109.1",
+    "@effect/vitest": "4.1.2",
+    "@types/node": "^24.10.0",
+    "alchemy": "2.0.0-beta.85",
+    "typescript": "^7.0.2",
+    "vitest": "^4.0.0"
+  }
+}

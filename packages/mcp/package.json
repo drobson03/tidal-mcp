@@ -1,0 +1,24 @@
+{
+  "name": "@tidal-mcp/mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TIDAL MCP tools, built on effect/ai McpServer",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@tidal-mcp/tidal-api": "workspace:*",
+    "effect": "4.1.2"
+  },
+  "devDependencies": {
+    "@effect/vitest": "4.1.2",
+    "@types/node": "^24.10.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.0.0"
+  }
+}

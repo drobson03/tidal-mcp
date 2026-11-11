@@ -1,0 +1,25 @@
+{
+  "name": "@tidal-mcp/tidal-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Effect HttpClient for the TIDAL API, generated from its OpenAPI spec",
+  "exports": {
+    ".": "./src/index.ts",
+    "./generated": "./src/generated/TidalApi.ts"
+  },
+  "scripts": {
+    "generate": "node scripts/generate.ts",
+    "spec:update": "node scripts/generate.ts --download",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "effect": "4.1.2"
+  },
+  "devDependencies": {
+    "@effect/openapi-generator": "4.1.2",
+    "@effect/platform-node": "4.1.2",
+    "@types/node": "^24.10.0",
+    "typescript": "^7.0.2"
+  }
+}
