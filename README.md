@@ -13,7 +13,7 @@ alchemy.run.ts       The alchemy Stack that deploys the Worker
 
 ## Tools
 
-All read-only, against the TIDAL catalogue:
+All read-only. The catalogue tools use the app's own token:
 
 | Tool | What it does |
 | --- | --- |
@@ -28,7 +28,24 @@ All read-only, against the TIDAL catalogue:
 | `get_artist_albums` | Discography |
 | `get_artist_tracks` | Top tracks |
 | `get_similar_artists` | Artists similar to an artist |
+
+These read the signed-in user's own library with their TIDAL token, so private playlists work too:
+
+| Tool | What it does |
+| --- | --- |
+| `find_my_playlists` | The user's own and saved playlists, optionally filtered by name |
+| `get_my_collection` | Saved albums, tracks, artists or playlists, newest first or sorted |
 | `get_playlist` / `get_playlist_items` | Playlist details and contents |
+| `get_playlist_artists` | Every artist on a playlist, with how many tracks each has |
+| `get_new_releases` | Artists' albums, EPs and singles since a date, without what's already in the library |
+
+So you can ask *"what have I missed in the last two years from the artists in my Good playlist?"*. The model chains
+`find_my_playlists`, then `get_playlist_artists`, then `get_new_releases`. Editions of a release (deluxe, remastered and so
+on) are grouped, and a release counts as in the library when you've saved the album, or a track from any edition of it.
+
+Cloudflare caps outbound requests per Worker invocation (50 on the Free plan, 1000 on Paid), and these tools need one
+per page. They stop at `TIDAL_REQUEST_BUDGET` (default 40) and return what's left, such as `remainingArtistIds`, for
+another call. Raise the budget on the Paid plan.
 
 Responses are JSON:API documents flattened for readability: attributes are inlined and included relationships are
 resolved. List tools return a `nextCursor` you pass back as `cursor`. `countryCode` defaults to `TIDAL_COUNTRY_CODE`.
@@ -71,8 +88,10 @@ no configuration beyond the URL:
 
 Only TIDAL accounts in `ALLOWED_USERS` (id, username, or verified email) can sign in. The list is checked again
 whenever a token is issued or refreshed, so removing someone and redeploying locks them out once their current access
-token expires. The user's TIDAL tokens are stored encrypted. The catalogue tools still use the app's
-client-credentials token, so they show the same catalogue for every user.
+token expires. The user's TIDAL tokens are stored encrypted and refreshed when they expire. They carry the scopes
+`user.read`, `playlists.read` and `collection.read`, which the TIDAL app must allow. Anyone who connected before
+these scopes were added needs to reconnect. The catalogue tools still use the app's client-credentials token, so they
+show the same catalogue for every user.
 
 Access tokens are checked against the Worker's own signing keys (no JWKS round-trip), including DPoP binding when a
 client uses it. The sign-in and consent pages are plain HTML forms with a strict CSP and no scripts.
@@ -101,7 +120,7 @@ pnpm spec:update   # download the latest spec, then generate
 
 `scripts/generate.ts` makes two changes to the spec before running the generator:
 
-- **Prunes** it to read-only (`GET`) catalogue resources, plus `users` for sign-in: 97 of 330 paths. Edit `RESOURCES` and `METHODS` to widen it.
+- **Prunes** it to read-only (`GET`) catalogue resources, plus `users` for sign-in and the `userCollection*` resources for the library tools: 109 of 330 paths. Edit `RESOURCES` and `METHODS` to widen it.
 - **Pins discriminators.** TIDAL's `included` array is a `oneOf` with a `type` discriminator, but every resource
   declares `type` as a plain string. The generator ignores discriminators, so without this step every response with
   `included` fails to decode ("Expected exactly one member to match").

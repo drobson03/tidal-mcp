@@ -12,8 +12,13 @@ import { TidalAuthError } from "./TidalAuth.ts"
 import { JSON_API_MEDIA_TYPE } from "./TidalClient.ts"
 import { TidalConfig } from "./TidalConfig.ts"
 
-/** Scopes requested at sign-in. `user.read` covers `GET /users/me`. */
-export const USER_SCOPES = ["user.read"] as const
+/**
+ * Scopes requested at sign-in: `user.read` for `GET /users/me`,
+ * `playlists.read` for the user's own (including private) playlists, and
+ * `collection.read` for their saved albums, tracks, artists and playlists.
+ * The TIDAL developer app must be allowed to request all of them.
+ */
+export const USER_SCOPES = ["user.read", "playlists.read", "collection.read"] as const
 
 export const UserTokenResponse = Schema.Struct({
   access_token: Schema.String,

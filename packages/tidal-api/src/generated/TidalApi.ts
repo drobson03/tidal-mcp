@@ -950,6 +950,14 @@ export type Default500ResponseBody = { readonly "errors": ReadonlyArray<{ readon
 export const Default500ResponseBody = Schema.StructWithRest(Schema.Struct({ "errors": Schema.Array(Schema.StructWithRest(Schema.Struct({ "detail": Schema.optionalKey(Schema.String.annotate({ "examples": ["Internal server error"] })), "status": Schema.String.annotate({ "examples": ["500"] }) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))])) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "Default500ResponseBody" })
 export type Default503ResponseBody = { readonly "errors": ReadonlyArray<{ readonly "detail"?: string, readonly "status": string } & { readonly [x: string]: Schema.Json }> } & { readonly [x: string]: Schema.Json }
 export const Default503ResponseBody = Schema.StructWithRest(Schema.Struct({ "errors": Schema.Array(Schema.StructWithRest(Schema.Struct({ "detail": Schema.optionalKey(Schema.String.annotate({ "examples": ["Service temporarily unavailable"] })), "status": Schema.String.annotate({ "examples": ["503"] }) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))])) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "Default503ResponseBody" })
+export type UserCollectionAlbumsItemsReadMultiDataRelationship403ResponseBody = { readonly "errors": ReadonlyArray<{ readonly "code": "UNAUTHORIZED", readonly "detail"?: string, readonly "status": string } & { readonly [x: string]: Schema.Json }> } & { readonly [x: string]: Schema.Json }
+export const UserCollectionAlbumsItemsReadMultiDataRelationship403ResponseBody = Schema.StructWithRest(Schema.Struct({ "errors": Schema.Array(Schema.StructWithRest(Schema.Struct({ "code": Schema.Literal("UNAUTHORIZED").annotate({ "examples": ["UNAUTHORIZED"] }), "detail": Schema.optionalKey(Schema.String.annotate({ "examples": ["filter[self][matchesQuery] requires INTERNAL access tier"] })), "status": Schema.String.annotate({ "examples": ["403"] }) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))])) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "UserCollectionAlbumsItemsReadMultiDataRelationship403ResponseBody" })
+export type UserCollectionArtistsItemsReadMultiDataRelationship403ResponseBody = { readonly "errors": ReadonlyArray<{ readonly "code": "UNAUTHORIZED", readonly "detail"?: string, readonly "status": string } & { readonly [x: string]: Schema.Json }> } & { readonly [x: string]: Schema.Json }
+export const UserCollectionArtistsItemsReadMultiDataRelationship403ResponseBody = Schema.StructWithRest(Schema.Struct({ "errors": Schema.Array(Schema.StructWithRest(Schema.Struct({ "code": Schema.Literal("UNAUTHORIZED").annotate({ "examples": ["UNAUTHORIZED"] }), "detail": Schema.optionalKey(Schema.String.annotate({ "examples": ["filter[self][matchesQuery] requires INTERNAL access tier"] })), "status": Schema.String.annotate({ "examples": ["403"] }) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))])) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "UserCollectionArtistsItemsReadMultiDataRelationship403ResponseBody" })
+export type UserCollectionPlaylistsItemsReadMultiDataRelationship403ResponseBody = { readonly "errors": ReadonlyArray<{ readonly "code": "UNAUTHORIZED", readonly "detail"?: string, readonly "status": string } & { readonly [x: string]: Schema.Json }> } & { readonly [x: string]: Schema.Json }
+export const UserCollectionPlaylistsItemsReadMultiDataRelationship403ResponseBody = Schema.StructWithRest(Schema.Struct({ "errors": Schema.Array(Schema.StructWithRest(Schema.Struct({ "code": Schema.Literal("UNAUTHORIZED").annotate({ "examples": ["UNAUTHORIZED"] }), "detail": Schema.optionalKey(Schema.String.annotate({ "examples": ["filter[self][matchesQuery] requires INTERNAL access tier"] })), "status": Schema.String.annotate({ "examples": ["403"] }) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))])) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "UserCollectionPlaylistsItemsReadMultiDataRelationship403ResponseBody" })
+export type UserCollectionTracksItemsReadMultiDataRelationship403ResponseBody = { readonly "errors": ReadonlyArray<{ readonly "code": "UNAUTHORIZED", readonly "detail"?: string, readonly "status": string } & { readonly [x: string]: Schema.Json }> } & { readonly [x: string]: Schema.Json }
+export const UserCollectionTracksItemsReadMultiDataRelationship403ResponseBody = Schema.StructWithRest(Schema.Struct({ "errors": Schema.Array(Schema.StructWithRest(Schema.Struct({ "code": Schema.Literal("UNAUTHORIZED").annotate({ "examples": ["UNAUTHORIZED"] }), "detail": Schema.optionalKey(Schema.String.annotate({ "examples": ["filter[self][matchesQuery] requires INTERNAL access tier"] })), "status": Schema.String.annotate({ "examples": ["403"] }) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))])) }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "UserCollectionTracksItemsReadMultiDataRelationship403ResponseBody" })
 export type External_Link = { readonly "href": string, readonly "meta": External_Link_Meta } & { readonly [x: string]: Schema.Json }
 export const External_Link = Schema.StructWithRest(Schema.Struct({ "href": Schema.String.annotate({ "format": "uri" }).check(Schema.isMinLength(1).annotate({ "expected": "a value with a length of at least 1" })), "meta": External_Link_Meta }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "External_Link" })
 export type Links = { readonly "meta"?: Links_Meta, readonly "next"?: string, readonly "self": string } & { readonly [x: string]: Schema.Json }
@@ -1106,6 +1114,14 @@ export type Tracks_Multi_Resource_Data_Document = { readonly "data": ReadonlyArr
 export const Tracks_Multi_Resource_Data_Document = Schema.StructWithRest(Schema.Struct({ "data": Schema.Array(Tracks_Resource_Object), "included": Schema.optionalKey(Included), "links": Links }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "Tracks_Multi_Resource_Data_Document" })
 export type Tracks_Single_Resource_Data_Document = { readonly "data": Tracks_Resource_Object, readonly "included"?: Included, readonly "links": Links } & { readonly [x: string]: Schema.Json }
 export const Tracks_Single_Resource_Data_Document = Schema.StructWithRest(Schema.Struct({ "data": Tracks_Resource_Object, "included": Schema.optionalKey(Included), "links": Links }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "Tracks_Single_Resource_Data_Document" })
+export type UserCollectionAlbums_Single_Resource_Data_Document = { readonly "data": UserCollectionAlbums_Resource_Object, readonly "included"?: Included, readonly "links": Links } & { readonly [x: string]: Schema.Json }
+export const UserCollectionAlbums_Single_Resource_Data_Document = Schema.StructWithRest(Schema.Struct({ "data": UserCollectionAlbums_Resource_Object, "included": Schema.optionalKey(Included), "links": Links }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "UserCollectionAlbums_Single_Resource_Data_Document" })
+export type UserCollectionArtists_Single_Resource_Data_Document = { readonly "data": UserCollectionArtists_Resource_Object, readonly "included"?: Included, readonly "links": Links } & { readonly [x: string]: Schema.Json }
+export const UserCollectionArtists_Single_Resource_Data_Document = Schema.StructWithRest(Schema.Struct({ "data": UserCollectionArtists_Resource_Object, "included": Schema.optionalKey(Included), "links": Links }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "UserCollectionArtists_Single_Resource_Data_Document" })
+export type UserCollectionPlaylists_Single_Resource_Data_Document = { readonly "data": UserCollectionPlaylists_Resource_Object, readonly "included"?: Included, readonly "links": Links } & { readonly [x: string]: Schema.Json }
+export const UserCollectionPlaylists_Single_Resource_Data_Document = Schema.StructWithRest(Schema.Struct({ "data": UserCollectionPlaylists_Resource_Object, "included": Schema.optionalKey(Included), "links": Links }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "UserCollectionPlaylists_Single_Resource_Data_Document" })
+export type UserCollectionTracks_Single_Resource_Data_Document = { readonly "data": UserCollectionTracks_Resource_Object, readonly "included"?: Included, readonly "links": Links } & { readonly [x: string]: Schema.Json }
+export const UserCollectionTracks_Single_Resource_Data_Document = Schema.StructWithRest(Schema.Struct({ "data": UserCollectionTracks_Resource_Object, "included": Schema.optionalKey(Included), "links": Links }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "UserCollectionTracks_Single_Resource_Data_Document" })
 export type Users_Single_Resource_Data_Document = { readonly "data": Users_Resource_Object, readonly "included"?: Included, readonly "links": Links } & { readonly [x: string]: Schema.Json }
 export const Users_Single_Resource_Data_Document = Schema.StructWithRest(Schema.Struct({ "data": Users_Resource_Object, "included": Schema.optionalKey(Included), "links": Links }), [Schema.Record(Schema.String, Schema.Json.annotate({ "expected": "JSON value" }))]).annotate({ "identifier": "Users_Single_Resource_Data_Document" })
 export type Videos_Multi_Resource_Data_Document = { readonly "data": ReadonlyArray<Videos_Resource_Object>, readonly "included"?: Included, readonly "links": Links } & { readonly [x: string]: Schema.Json }
@@ -3365,6 +3381,254 @@ export type TracksIdRelationshipsUsageRules500 = Default500ResponseBody
 export const TracksIdRelationshipsUsageRules500 = Default500ResponseBody
 export type TracksIdRelationshipsUsageRules503 = Default503ResponseBody
 export const TracksIdRelationshipsUsageRules503 = Default503ResponseBody
+export type UserCollectionAlbumsIdParams = { readonly "include"?: ReadonlyArray<string>, readonly "includeLinkage"?: ReadonlyArray<"items" | "owners">, readonly "locale"?: string, readonly "replaceMedia"?: string }
+export const UserCollectionAlbumsIdParams = Schema.Struct({ "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["items"] }))), "includeLinkage": Schema.optionalKey(Schema.Array(Schema.Literals(["items", "owners"]))), "locale": Schema.optionalKey(Schema.String.annotate({ "default": "en-US" })), "replaceMedia": Schema.optionalKey(Schema.String.annotate({ "examples": ["items"] })) })
+export type UserCollectionAlbumsId200 = UserCollectionAlbums_Single_Resource_Data_Document
+export const UserCollectionAlbumsId200 = UserCollectionAlbums_Single_Resource_Data_Document
+export type UserCollectionAlbumsId400 = Default400ResponseBody
+export const UserCollectionAlbumsId400 = Default400ResponseBody
+export type UserCollectionAlbumsId404 = Default404ResponseBody
+export const UserCollectionAlbumsId404 = Default404ResponseBody
+export type UserCollectionAlbumsId405 = Default405ResponseBody
+export const UserCollectionAlbumsId405 = Default405ResponseBody
+export type UserCollectionAlbumsId406 = Default406ResponseBody
+export const UserCollectionAlbumsId406 = Default406ResponseBody
+export type UserCollectionAlbumsId415 = Default415ResponseBody
+export const UserCollectionAlbumsId415 = Default415ResponseBody
+export type UserCollectionAlbumsId429 = Default429ResponseBody
+export const UserCollectionAlbumsId429 = Default429ResponseBody
+export type UserCollectionAlbumsId500 = Default500ResponseBody
+export const UserCollectionAlbumsId500 = Default500ResponseBody
+export type UserCollectionAlbumsId503 = Default503ResponseBody
+export const UserCollectionAlbumsId503 = Default503ResponseBody
+export type UserCollectionAlbumsIdRelationshipsItemsParams = { readonly "filter[self][matchesQuery]"?: string, readonly "include"?: ReadonlyArray<string>, readonly "locale"?: string, readonly "page[cursor]"?: string, readonly "replaceMedia"?: string, readonly "sort"?: ReadonlyArray<"addedAt" | "-addedAt" | "artists.name" | "-artists.name" | "releaseDate" | "-releaseDate" | "title" | "-title"> }
+export const UserCollectionAlbumsIdRelationshipsItemsParams = Schema.Struct({ "filter[self][matchesQuery]": Schema.optionalKey(Schema.String.check(Schema.isMaxCodePoints(100).annotate({ "expected": "a string with at most 100 code points" }))), "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["items"] }))), "locale": Schema.optionalKey(Schema.String.annotate({ "default": "en-US" })), "page[cursor]": Schema.optionalKey(Schema.String), "replaceMedia": Schema.optionalKey(Schema.String.annotate({ "examples": ["items"] })), "sort": Schema.optionalKey(Schema.Array(Schema.Literals(["addedAt", "-addedAt", "artists.name", "-artists.name", "releaseDate", "-releaseDate", "title", "-title"]).annotate({ "default": "-addedAt", "examples": ["addedAt"] }))) })
+export type UserCollectionAlbumsIdRelationshipsItems200 = UserCollectionAlbums_Items_Multi_Relationship_Data_Document
+export const UserCollectionAlbumsIdRelationshipsItems200 = UserCollectionAlbums_Items_Multi_Relationship_Data_Document
+export type UserCollectionAlbumsIdRelationshipsItems400 = Default400ResponseBody
+export const UserCollectionAlbumsIdRelationshipsItems400 = Default400ResponseBody
+export type UserCollectionAlbumsIdRelationshipsItems403 = UserCollectionAlbumsItemsReadMultiDataRelationship403ResponseBody
+export const UserCollectionAlbumsIdRelationshipsItems403 = UserCollectionAlbumsItemsReadMultiDataRelationship403ResponseBody
+export type UserCollectionAlbumsIdRelationshipsItems404 = Default404ResponseBody
+export const UserCollectionAlbumsIdRelationshipsItems404 = Default404ResponseBody
+export type UserCollectionAlbumsIdRelationshipsItems405 = Default405ResponseBody
+export const UserCollectionAlbumsIdRelationshipsItems405 = Default405ResponseBody
+export type UserCollectionAlbumsIdRelationshipsItems406 = Default406ResponseBody
+export const UserCollectionAlbumsIdRelationshipsItems406 = Default406ResponseBody
+export type UserCollectionAlbumsIdRelationshipsItems415 = Default415ResponseBody
+export const UserCollectionAlbumsIdRelationshipsItems415 = Default415ResponseBody
+export type UserCollectionAlbumsIdRelationshipsItems429 = Default429ResponseBody
+export const UserCollectionAlbumsIdRelationshipsItems429 = Default429ResponseBody
+export type UserCollectionAlbumsIdRelationshipsItems500 = Default500ResponseBody
+export const UserCollectionAlbumsIdRelationshipsItems500 = Default500ResponseBody
+export type UserCollectionAlbumsIdRelationshipsItems503 = Default503ResponseBody
+export const UserCollectionAlbumsIdRelationshipsItems503 = Default503ResponseBody
+export type UserCollectionAlbumsIdRelationshipsOwnersParams = { readonly "include"?: ReadonlyArray<string>, readonly "page[cursor]"?: string }
+export const UserCollectionAlbumsIdRelationshipsOwnersParams = Schema.Struct({ "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["owners"] }))), "page[cursor]": Schema.optionalKey(Schema.String) })
+export type UserCollectionAlbumsIdRelationshipsOwners200 = UserCollectionAlbums_Owners_Multi_Relationship_Data_Document
+export const UserCollectionAlbumsIdRelationshipsOwners200 = UserCollectionAlbums_Owners_Multi_Relationship_Data_Document
+export type UserCollectionAlbumsIdRelationshipsOwners400 = Default400ResponseBody
+export const UserCollectionAlbumsIdRelationshipsOwners400 = Default400ResponseBody
+export type UserCollectionAlbumsIdRelationshipsOwners404 = Default404ResponseBody
+export const UserCollectionAlbumsIdRelationshipsOwners404 = Default404ResponseBody
+export type UserCollectionAlbumsIdRelationshipsOwners405 = Default405ResponseBody
+export const UserCollectionAlbumsIdRelationshipsOwners405 = Default405ResponseBody
+export type UserCollectionAlbumsIdRelationshipsOwners406 = Default406ResponseBody
+export const UserCollectionAlbumsIdRelationshipsOwners406 = Default406ResponseBody
+export type UserCollectionAlbumsIdRelationshipsOwners415 = Default415ResponseBody
+export const UserCollectionAlbumsIdRelationshipsOwners415 = Default415ResponseBody
+export type UserCollectionAlbumsIdRelationshipsOwners429 = Default429ResponseBody
+export const UserCollectionAlbumsIdRelationshipsOwners429 = Default429ResponseBody
+export type UserCollectionAlbumsIdRelationshipsOwners500 = Default500ResponseBody
+export const UserCollectionAlbumsIdRelationshipsOwners500 = Default500ResponseBody
+export type UserCollectionAlbumsIdRelationshipsOwners503 = Default503ResponseBody
+export const UserCollectionAlbumsIdRelationshipsOwners503 = Default503ResponseBody
+export type UserCollectionArtistsIdParams = { readonly "include"?: ReadonlyArray<string>, readonly "includeLinkage"?: ReadonlyArray<"items" | "owners">, readonly "locale"?: string, readonly "replaceMedia"?: string }
+export const UserCollectionArtistsIdParams = Schema.Struct({ "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["items.albums"] }))), "includeLinkage": Schema.optionalKey(Schema.Array(Schema.Literals(["items", "owners"]))), "locale": Schema.optionalKey(Schema.String.annotate({ "default": "en-US" })), "replaceMedia": Schema.optionalKey(Schema.String.annotate({ "examples": ["items.albums"] })) })
+export type UserCollectionArtistsId200 = UserCollectionArtists_Single_Resource_Data_Document
+export const UserCollectionArtistsId200 = UserCollectionArtists_Single_Resource_Data_Document
+export type UserCollectionArtistsId400 = Default400ResponseBody
+export const UserCollectionArtistsId400 = Default400ResponseBody
+export type UserCollectionArtistsId404 = Default404ResponseBody
+export const UserCollectionArtistsId404 = Default404ResponseBody
+export type UserCollectionArtistsId405 = Default405ResponseBody
+export const UserCollectionArtistsId405 = Default405ResponseBody
+export type UserCollectionArtistsId406 = Default406ResponseBody
+export const UserCollectionArtistsId406 = Default406ResponseBody
+export type UserCollectionArtistsId415 = Default415ResponseBody
+export const UserCollectionArtistsId415 = Default415ResponseBody
+export type UserCollectionArtistsId429 = Default429ResponseBody
+export const UserCollectionArtistsId429 = Default429ResponseBody
+export type UserCollectionArtistsId500 = Default500ResponseBody
+export const UserCollectionArtistsId500 = Default500ResponseBody
+export type UserCollectionArtistsId503 = Default503ResponseBody
+export const UserCollectionArtistsId503 = Default503ResponseBody
+export type UserCollectionArtistsIdRelationshipsItemsParams = { readonly "filter[self][matchesQuery]"?: string, readonly "include"?: ReadonlyArray<string>, readonly "locale"?: string, readonly "page[cursor]"?: string, readonly "replaceMedia"?: string, readonly "sort"?: ReadonlyArray<"addedAt" | "-addedAt" | "name" | "-name"> }
+export const UserCollectionArtistsIdRelationshipsItemsParams = Schema.Struct({ "filter[self][matchesQuery]": Schema.optionalKey(Schema.String.check(Schema.isMaxCodePoints(100).annotate({ "expected": "a string with at most 100 code points" }))), "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["items.albums"] }))), "locale": Schema.optionalKey(Schema.String.annotate({ "default": "en-US" })), "page[cursor]": Schema.optionalKey(Schema.String), "replaceMedia": Schema.optionalKey(Schema.String.annotate({ "examples": ["items.albums"] })), "sort": Schema.optionalKey(Schema.Array(Schema.Literals(["addedAt", "-addedAt", "name", "-name"]).annotate({ "default": "-addedAt", "examples": ["addedAt"] }))) })
+export type UserCollectionArtistsIdRelationshipsItems200 = UserCollectionArtists_Items_Multi_Relationship_Data_Document
+export const UserCollectionArtistsIdRelationshipsItems200 = UserCollectionArtists_Items_Multi_Relationship_Data_Document
+export type UserCollectionArtistsIdRelationshipsItems400 = Default400ResponseBody
+export const UserCollectionArtistsIdRelationshipsItems400 = Default400ResponseBody
+export type UserCollectionArtistsIdRelationshipsItems403 = UserCollectionArtistsItemsReadMultiDataRelationship403ResponseBody
+export const UserCollectionArtistsIdRelationshipsItems403 = UserCollectionArtistsItemsReadMultiDataRelationship403ResponseBody
+export type UserCollectionArtistsIdRelationshipsItems404 = Default404ResponseBody
+export const UserCollectionArtistsIdRelationshipsItems404 = Default404ResponseBody
+export type UserCollectionArtistsIdRelationshipsItems405 = Default405ResponseBody
+export const UserCollectionArtistsIdRelationshipsItems405 = Default405ResponseBody
+export type UserCollectionArtistsIdRelationshipsItems406 = Default406ResponseBody
+export const UserCollectionArtistsIdRelationshipsItems406 = Default406ResponseBody
+export type UserCollectionArtistsIdRelationshipsItems415 = Default415ResponseBody
+export const UserCollectionArtistsIdRelationshipsItems415 = Default415ResponseBody
+export type UserCollectionArtistsIdRelationshipsItems429 = Default429ResponseBody
+export const UserCollectionArtistsIdRelationshipsItems429 = Default429ResponseBody
+export type UserCollectionArtistsIdRelationshipsItems500 = Default500ResponseBody
+export const UserCollectionArtistsIdRelationshipsItems500 = Default500ResponseBody
+export type UserCollectionArtistsIdRelationshipsItems503 = Default503ResponseBody
+export const UserCollectionArtistsIdRelationshipsItems503 = Default503ResponseBody
+export type UserCollectionArtistsIdRelationshipsOwnersParams = { readonly "include"?: ReadonlyArray<string>, readonly "page[cursor]"?: string }
+export const UserCollectionArtistsIdRelationshipsOwnersParams = Schema.Struct({ "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["owners"] }))), "page[cursor]": Schema.optionalKey(Schema.String) })
+export type UserCollectionArtistsIdRelationshipsOwners200 = UserCollectionArtists_Owners_Multi_Relationship_Data_Document
+export const UserCollectionArtistsIdRelationshipsOwners200 = UserCollectionArtists_Owners_Multi_Relationship_Data_Document
+export type UserCollectionArtistsIdRelationshipsOwners400 = Default400ResponseBody
+export const UserCollectionArtistsIdRelationshipsOwners400 = Default400ResponseBody
+export type UserCollectionArtistsIdRelationshipsOwners404 = Default404ResponseBody
+export const UserCollectionArtistsIdRelationshipsOwners404 = Default404ResponseBody
+export type UserCollectionArtistsIdRelationshipsOwners405 = Default405ResponseBody
+export const UserCollectionArtistsIdRelationshipsOwners405 = Default405ResponseBody
+export type UserCollectionArtistsIdRelationshipsOwners406 = Default406ResponseBody
+export const UserCollectionArtistsIdRelationshipsOwners406 = Default406ResponseBody
+export type UserCollectionArtistsIdRelationshipsOwners415 = Default415ResponseBody
+export const UserCollectionArtistsIdRelationshipsOwners415 = Default415ResponseBody
+export type UserCollectionArtistsIdRelationshipsOwners429 = Default429ResponseBody
+export const UserCollectionArtistsIdRelationshipsOwners429 = Default429ResponseBody
+export type UserCollectionArtistsIdRelationshipsOwners500 = Default500ResponseBody
+export const UserCollectionArtistsIdRelationshipsOwners500 = Default500ResponseBody
+export type UserCollectionArtistsIdRelationshipsOwners503 = Default503ResponseBody
+export const UserCollectionArtistsIdRelationshipsOwners503 = Default503ResponseBody
+export type UserCollectionPlaylistsIdParams = { readonly "include"?: ReadonlyArray<string>, readonly "includeLinkage"?: ReadonlyArray<"items" | "owners">, readonly "locale"?: string, readonly "replaceMedia"?: string }
+export const UserCollectionPlaylistsIdParams = Schema.Struct({ "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["items.items"] }))), "includeLinkage": Schema.optionalKey(Schema.Array(Schema.Literals(["items", "owners"]))), "locale": Schema.optionalKey(Schema.String.annotate({ "default": "en-US" })), "replaceMedia": Schema.optionalKey(Schema.String.annotate({ "examples": ["items.items"] })) })
+export type UserCollectionPlaylistsId200 = UserCollectionPlaylists_Single_Resource_Data_Document
+export const UserCollectionPlaylistsId200 = UserCollectionPlaylists_Single_Resource_Data_Document
+export type UserCollectionPlaylistsId400 = Default400ResponseBody
+export const UserCollectionPlaylistsId400 = Default400ResponseBody
+export type UserCollectionPlaylistsId404 = Default404ResponseBody
+export const UserCollectionPlaylistsId404 = Default404ResponseBody
+export type UserCollectionPlaylistsId405 = Default405ResponseBody
+export const UserCollectionPlaylistsId405 = Default405ResponseBody
+export type UserCollectionPlaylistsId406 = Default406ResponseBody
+export const UserCollectionPlaylistsId406 = Default406ResponseBody
+export type UserCollectionPlaylistsId415 = Default415ResponseBody
+export const UserCollectionPlaylistsId415 = Default415ResponseBody
+export type UserCollectionPlaylistsId429 = Default429ResponseBody
+export const UserCollectionPlaylistsId429 = Default429ResponseBody
+export type UserCollectionPlaylistsId500 = Default500ResponseBody
+export const UserCollectionPlaylistsId500 = Default500ResponseBody
+export type UserCollectionPlaylistsId503 = Default503ResponseBody
+export const UserCollectionPlaylistsId503 = Default503ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsItemsParams = { readonly "collectionView"?: "FLAT" | "FOLDERS", readonly "filter[self][matchesQuery]"?: string, readonly "include"?: ReadonlyArray<string>, readonly "page[cursor]"?: string, readonly "replaceMedia"?: string, readonly "sort"?: ReadonlyArray<"addedAt" | "-addedAt" | "lastModifiedAt" | "-lastModifiedAt" | "name" | "-name"> }
+export const UserCollectionPlaylistsIdRelationshipsItemsParams = Schema.Struct({ "collectionView": Schema.optionalKey(Schema.Literals(["FLAT", "FOLDERS"])), "filter[self][matchesQuery]": Schema.optionalKey(Schema.String.check(Schema.isMaxCodePoints(100).annotate({ "expected": "a string with at most 100 code points" }))), "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["items.items"] }))), "page[cursor]": Schema.optionalKey(Schema.String), "replaceMedia": Schema.optionalKey(Schema.String.annotate({ "examples": ["items.items"] })), "sort": Schema.optionalKey(Schema.Array(Schema.Literals(["addedAt", "-addedAt", "lastModifiedAt", "-lastModifiedAt", "name", "-name"]).annotate({ "default": "-addedAt", "examples": ["addedAt"] }))) })
+export type UserCollectionPlaylistsIdRelationshipsItems200 = UserCollectionPlaylists_Items_Multi_Relationship_Data_Document
+export const UserCollectionPlaylistsIdRelationshipsItems200 = UserCollectionPlaylists_Items_Multi_Relationship_Data_Document
+export type UserCollectionPlaylistsIdRelationshipsItems400 = Default400ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsItems400 = Default400ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsItems403 = UserCollectionPlaylistsItemsReadMultiDataRelationship403ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsItems403 = UserCollectionPlaylistsItemsReadMultiDataRelationship403ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsItems404 = Default404ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsItems404 = Default404ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsItems405 = Default405ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsItems405 = Default405ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsItems406 = Default406ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsItems406 = Default406ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsItems415 = Default415ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsItems415 = Default415ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsItems429 = Default429ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsItems429 = Default429ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsItems500 = Default500ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsItems500 = Default500ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsItems503 = Default503ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsItems503 = Default503ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsOwnersParams = { readonly "include"?: ReadonlyArray<string>, readonly "page[cursor]"?: string }
+export const UserCollectionPlaylistsIdRelationshipsOwnersParams = Schema.Struct({ "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["owners"] }))), "page[cursor]": Schema.optionalKey(Schema.String) })
+export type UserCollectionPlaylistsIdRelationshipsOwners200 = UserCollectionPlaylists_Owners_Multi_Relationship_Data_Document
+export const UserCollectionPlaylistsIdRelationshipsOwners200 = UserCollectionPlaylists_Owners_Multi_Relationship_Data_Document
+export type UserCollectionPlaylistsIdRelationshipsOwners400 = Default400ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsOwners400 = Default400ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsOwners404 = Default404ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsOwners404 = Default404ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsOwners405 = Default405ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsOwners405 = Default405ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsOwners406 = Default406ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsOwners406 = Default406ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsOwners415 = Default415ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsOwners415 = Default415ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsOwners429 = Default429ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsOwners429 = Default429ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsOwners500 = Default500ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsOwners500 = Default500ResponseBody
+export type UserCollectionPlaylistsIdRelationshipsOwners503 = Default503ResponseBody
+export const UserCollectionPlaylistsIdRelationshipsOwners503 = Default503ResponseBody
+export type UserCollectionTracksIdParams = { readonly "include"?: ReadonlyArray<string>, readonly "includeLinkage"?: ReadonlyArray<"items" | "owners">, readonly "locale"?: string, readonly "replaceMedia"?: string }
+export const UserCollectionTracksIdParams = Schema.Struct({ "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["items"] }))), "includeLinkage": Schema.optionalKey(Schema.Array(Schema.Literals(["items", "owners"]))), "locale": Schema.optionalKey(Schema.String.annotate({ "default": "en-US" })), "replaceMedia": Schema.optionalKey(Schema.String.annotate({ "examples": ["items"] })) })
+export type UserCollectionTracksId200 = UserCollectionTracks_Single_Resource_Data_Document
+export const UserCollectionTracksId200 = UserCollectionTracks_Single_Resource_Data_Document
+export type UserCollectionTracksId400 = Default400ResponseBody
+export const UserCollectionTracksId400 = Default400ResponseBody
+export type UserCollectionTracksId404 = Default404ResponseBody
+export const UserCollectionTracksId404 = Default404ResponseBody
+export type UserCollectionTracksId405 = Default405ResponseBody
+export const UserCollectionTracksId405 = Default405ResponseBody
+export type UserCollectionTracksId406 = Default406ResponseBody
+export const UserCollectionTracksId406 = Default406ResponseBody
+export type UserCollectionTracksId415 = Default415ResponseBody
+export const UserCollectionTracksId415 = Default415ResponseBody
+export type UserCollectionTracksId429 = Default429ResponseBody
+export const UserCollectionTracksId429 = Default429ResponseBody
+export type UserCollectionTracksId500 = Default500ResponseBody
+export const UserCollectionTracksId500 = Default500ResponseBody
+export type UserCollectionTracksId503 = Default503ResponseBody
+export const UserCollectionTracksId503 = Default503ResponseBody
+export type UserCollectionTracksIdRelationshipsItemsParams = { readonly "filter[self][matchesQuery]"?: string, readonly "include"?: ReadonlyArray<string>, readonly "locale"?: string, readonly "page[cursor]"?: string, readonly "replaceMedia"?: string, readonly "sort"?: ReadonlyArray<"addedAt" | "-addedAt" | "albums.title" | "-albums.title" | "artists.name" | "-artists.name" | "duration" | "-duration" | "title" | "-title"> }
+export const UserCollectionTracksIdRelationshipsItemsParams = Schema.Struct({ "filter[self][matchesQuery]": Schema.optionalKey(Schema.String.check(Schema.isMaxCodePoints(100).annotate({ "expected": "a string with at most 100 code points" }))), "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["items"] }))), "locale": Schema.optionalKey(Schema.String.annotate({ "default": "en-US" })), "page[cursor]": Schema.optionalKey(Schema.String), "replaceMedia": Schema.optionalKey(Schema.String.annotate({ "examples": ["items"] })), "sort": Schema.optionalKey(Schema.Array(Schema.Literals(["addedAt", "-addedAt", "albums.title", "-albums.title", "artists.name", "-artists.name", "duration", "-duration", "title", "-title"]).annotate({ "default": "-addedAt", "examples": ["addedAt"] }))) })
+export type UserCollectionTracksIdRelationshipsItems200 = UserCollectionTracks_Items_Multi_Relationship_Data_Document
+export const UserCollectionTracksIdRelationshipsItems200 = UserCollectionTracks_Items_Multi_Relationship_Data_Document
+export type UserCollectionTracksIdRelationshipsItems400 = Default400ResponseBody
+export const UserCollectionTracksIdRelationshipsItems400 = Default400ResponseBody
+export type UserCollectionTracksIdRelationshipsItems403 = UserCollectionTracksItemsReadMultiDataRelationship403ResponseBody
+export const UserCollectionTracksIdRelationshipsItems403 = UserCollectionTracksItemsReadMultiDataRelationship403ResponseBody
+export type UserCollectionTracksIdRelationshipsItems404 = Default404ResponseBody
+export const UserCollectionTracksIdRelationshipsItems404 = Default404ResponseBody
+export type UserCollectionTracksIdRelationshipsItems405 = Default405ResponseBody
+export const UserCollectionTracksIdRelationshipsItems405 = Default405ResponseBody
+export type UserCollectionTracksIdRelationshipsItems406 = Default406ResponseBody
+export const UserCollectionTracksIdRelationshipsItems406 = Default406ResponseBody
+export type UserCollectionTracksIdRelationshipsItems415 = Default415ResponseBody
+export const UserCollectionTracksIdRelationshipsItems415 = Default415ResponseBody
+export type UserCollectionTracksIdRelationshipsItems429 = Default429ResponseBody
+export const UserCollectionTracksIdRelationshipsItems429 = Default429ResponseBody
+export type UserCollectionTracksIdRelationshipsItems500 = Default500ResponseBody
+export const UserCollectionTracksIdRelationshipsItems500 = Default500ResponseBody
+export type UserCollectionTracksIdRelationshipsItems503 = Default503ResponseBody
+export const UserCollectionTracksIdRelationshipsItems503 = Default503ResponseBody
+export type UserCollectionTracksIdRelationshipsOwnersParams = { readonly "include"?: ReadonlyArray<string>, readonly "page[cursor]"?: string }
+export const UserCollectionTracksIdRelationshipsOwnersParams = Schema.Struct({ "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["owners"] }))), "page[cursor]": Schema.optionalKey(Schema.String) })
+export type UserCollectionTracksIdRelationshipsOwners200 = UserCollectionTracks_Owners_Multi_Relationship_Data_Document
+export const UserCollectionTracksIdRelationshipsOwners200 = UserCollectionTracks_Owners_Multi_Relationship_Data_Document
+export type UserCollectionTracksIdRelationshipsOwners400 = Default400ResponseBody
+export const UserCollectionTracksIdRelationshipsOwners400 = Default400ResponseBody
+export type UserCollectionTracksIdRelationshipsOwners404 = Default404ResponseBody
+export const UserCollectionTracksIdRelationshipsOwners404 = Default404ResponseBody
+export type UserCollectionTracksIdRelationshipsOwners405 = Default405ResponseBody
+export const UserCollectionTracksIdRelationshipsOwners405 = Default405ResponseBody
+export type UserCollectionTracksIdRelationshipsOwners406 = Default406ResponseBody
+export const UserCollectionTracksIdRelationshipsOwners406 = Default406ResponseBody
+export type UserCollectionTracksIdRelationshipsOwners415 = Default415ResponseBody
+export const UserCollectionTracksIdRelationshipsOwners415 = Default415ResponseBody
+export type UserCollectionTracksIdRelationshipsOwners429 = Default429ResponseBody
+export const UserCollectionTracksIdRelationshipsOwners429 = Default429ResponseBody
+export type UserCollectionTracksIdRelationshipsOwners500 = Default500ResponseBody
+export const UserCollectionTracksIdRelationshipsOwners500 = Default500ResponseBody
+export type UserCollectionTracksIdRelationshipsOwners503 = Default503ResponseBody
+export const UserCollectionTracksIdRelationshipsOwners503 = Default503ResponseBody
 export type UsersIdParams = { readonly "include"?: ReadonlyArray<string>, readonly "includeLinkage"?: ReadonlyArray<"artist">, readonly "replaceMedia"?: string }
 export const UsersIdParams = Schema.Struct({ "include": Schema.optionalKey(Schema.Array(Schema.String.annotate({ "examples": ["artist.albums"] }))), "includeLinkage": Schema.optionalKey(Schema.Array(Schema.Literal("artist"))), "replaceMedia": Schema.optionalKey(Schema.String.annotate({ "examples": ["artist.albums"] })) })
 export type UsersId200 = Users_Single_Resource_Data_Document
@@ -5140,6 +5404,214 @@ export const make = <E, R>(
     }))
     ))
   ),
+    "GET/userCollectionAlbums/{id}": (id, options: Parameters<TidalApi["GET/userCollectionAlbums/{id}"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionAlbums/" + __encodePathParam(id) + "").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "include": options?.params?.["include"] as any, "includeLinkage": __joinComma(options?.params?.["includeLinkage"]) as any, "locale": options?.params?.["locale"] as any, "replaceMedia": options?.params?.["replaceMedia"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionAlbumsId200),
+      "400": decodeError("UserCollectionAlbumsId400", UserCollectionAlbumsId400),
+      "404": decodeError("UserCollectionAlbumsId404", UserCollectionAlbumsId404),
+      "405": decodeError("UserCollectionAlbumsId405", UserCollectionAlbumsId405),
+      "406": decodeError("UserCollectionAlbumsId406", UserCollectionAlbumsId406),
+      "415": decodeError("UserCollectionAlbumsId415", UserCollectionAlbumsId415),
+      "429": decodeError("UserCollectionAlbumsId429", UserCollectionAlbumsId429),
+      "500": decodeError("UserCollectionAlbumsId500", UserCollectionAlbumsId500),
+      "503": decodeError("UserCollectionAlbumsId503", UserCollectionAlbumsId503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionAlbums/{id}/relationships/items": (id, options: Parameters<TidalApi["GET/userCollectionAlbums/{id}/relationships/items"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionAlbums/" + __encodePathParam(id) + "/relationships/items").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "filter[self][matchesQuery]": options?.params?.["filter[self][matchesQuery]"] as any, "include": options?.params?.["include"] as any, "locale": options?.params?.["locale"] as any, "page[cursor]": options?.params?.["page[cursor]"] as any, "replaceMedia": options?.params?.["replaceMedia"] as any, "sort": options?.params?.["sort"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionAlbumsIdRelationshipsItems200),
+      "400": decodeError("UserCollectionAlbumsIdRelationshipsItems400", UserCollectionAlbumsIdRelationshipsItems400),
+      "403": decodeError("UserCollectionAlbumsIdRelationshipsItems403", UserCollectionAlbumsIdRelationshipsItems403),
+      "404": decodeError("UserCollectionAlbumsIdRelationshipsItems404", UserCollectionAlbumsIdRelationshipsItems404),
+      "405": decodeError("UserCollectionAlbumsIdRelationshipsItems405", UserCollectionAlbumsIdRelationshipsItems405),
+      "406": decodeError("UserCollectionAlbumsIdRelationshipsItems406", UserCollectionAlbumsIdRelationshipsItems406),
+      "415": decodeError("UserCollectionAlbumsIdRelationshipsItems415", UserCollectionAlbumsIdRelationshipsItems415),
+      "429": decodeError("UserCollectionAlbumsIdRelationshipsItems429", UserCollectionAlbumsIdRelationshipsItems429),
+      "500": decodeError("UserCollectionAlbumsIdRelationshipsItems500", UserCollectionAlbumsIdRelationshipsItems500),
+      "503": decodeError("UserCollectionAlbumsIdRelationshipsItems503", UserCollectionAlbumsIdRelationshipsItems503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionAlbums/{id}/relationships/owners": (id, options: Parameters<TidalApi["GET/userCollectionAlbums/{id}/relationships/owners"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionAlbums/" + __encodePathParam(id) + "/relationships/owners").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "include": options?.params?.["include"] as any, "page[cursor]": options?.params?.["page[cursor]"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionAlbumsIdRelationshipsOwners200),
+      "400": decodeError("UserCollectionAlbumsIdRelationshipsOwners400", UserCollectionAlbumsIdRelationshipsOwners400),
+      "404": decodeError("UserCollectionAlbumsIdRelationshipsOwners404", UserCollectionAlbumsIdRelationshipsOwners404),
+      "405": decodeError("UserCollectionAlbumsIdRelationshipsOwners405", UserCollectionAlbumsIdRelationshipsOwners405),
+      "406": decodeError("UserCollectionAlbumsIdRelationshipsOwners406", UserCollectionAlbumsIdRelationshipsOwners406),
+      "415": decodeError("UserCollectionAlbumsIdRelationshipsOwners415", UserCollectionAlbumsIdRelationshipsOwners415),
+      "429": decodeError("UserCollectionAlbumsIdRelationshipsOwners429", UserCollectionAlbumsIdRelationshipsOwners429),
+      "500": decodeError("UserCollectionAlbumsIdRelationshipsOwners500", UserCollectionAlbumsIdRelationshipsOwners500),
+      "503": decodeError("UserCollectionAlbumsIdRelationshipsOwners503", UserCollectionAlbumsIdRelationshipsOwners503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionArtists/{id}": (id, options: Parameters<TidalApi["GET/userCollectionArtists/{id}"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionArtists/" + __encodePathParam(id) + "").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "include": options?.params?.["include"] as any, "includeLinkage": __joinComma(options?.params?.["includeLinkage"]) as any, "locale": options?.params?.["locale"] as any, "replaceMedia": options?.params?.["replaceMedia"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionArtistsId200),
+      "400": decodeError("UserCollectionArtistsId400", UserCollectionArtistsId400),
+      "404": decodeError("UserCollectionArtistsId404", UserCollectionArtistsId404),
+      "405": decodeError("UserCollectionArtistsId405", UserCollectionArtistsId405),
+      "406": decodeError("UserCollectionArtistsId406", UserCollectionArtistsId406),
+      "415": decodeError("UserCollectionArtistsId415", UserCollectionArtistsId415),
+      "429": decodeError("UserCollectionArtistsId429", UserCollectionArtistsId429),
+      "500": decodeError("UserCollectionArtistsId500", UserCollectionArtistsId500),
+      "503": decodeError("UserCollectionArtistsId503", UserCollectionArtistsId503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionArtists/{id}/relationships/items": (id, options: Parameters<TidalApi["GET/userCollectionArtists/{id}/relationships/items"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionArtists/" + __encodePathParam(id) + "/relationships/items").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "filter[self][matchesQuery]": options?.params?.["filter[self][matchesQuery]"] as any, "include": options?.params?.["include"] as any, "locale": options?.params?.["locale"] as any, "page[cursor]": options?.params?.["page[cursor]"] as any, "replaceMedia": options?.params?.["replaceMedia"] as any, "sort": options?.params?.["sort"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionArtistsIdRelationshipsItems200),
+      "400": decodeError("UserCollectionArtistsIdRelationshipsItems400", UserCollectionArtistsIdRelationshipsItems400),
+      "403": decodeError("UserCollectionArtistsIdRelationshipsItems403", UserCollectionArtistsIdRelationshipsItems403),
+      "404": decodeError("UserCollectionArtistsIdRelationshipsItems404", UserCollectionArtistsIdRelationshipsItems404),
+      "405": decodeError("UserCollectionArtistsIdRelationshipsItems405", UserCollectionArtistsIdRelationshipsItems405),
+      "406": decodeError("UserCollectionArtistsIdRelationshipsItems406", UserCollectionArtistsIdRelationshipsItems406),
+      "415": decodeError("UserCollectionArtistsIdRelationshipsItems415", UserCollectionArtistsIdRelationshipsItems415),
+      "429": decodeError("UserCollectionArtistsIdRelationshipsItems429", UserCollectionArtistsIdRelationshipsItems429),
+      "500": decodeError("UserCollectionArtistsIdRelationshipsItems500", UserCollectionArtistsIdRelationshipsItems500),
+      "503": decodeError("UserCollectionArtistsIdRelationshipsItems503", UserCollectionArtistsIdRelationshipsItems503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionArtists/{id}/relationships/owners": (id, options: Parameters<TidalApi["GET/userCollectionArtists/{id}/relationships/owners"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionArtists/" + __encodePathParam(id) + "/relationships/owners").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "include": options?.params?.["include"] as any, "page[cursor]": options?.params?.["page[cursor]"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionArtistsIdRelationshipsOwners200),
+      "400": decodeError("UserCollectionArtistsIdRelationshipsOwners400", UserCollectionArtistsIdRelationshipsOwners400),
+      "404": decodeError("UserCollectionArtistsIdRelationshipsOwners404", UserCollectionArtistsIdRelationshipsOwners404),
+      "405": decodeError("UserCollectionArtistsIdRelationshipsOwners405", UserCollectionArtistsIdRelationshipsOwners405),
+      "406": decodeError("UserCollectionArtistsIdRelationshipsOwners406", UserCollectionArtistsIdRelationshipsOwners406),
+      "415": decodeError("UserCollectionArtistsIdRelationshipsOwners415", UserCollectionArtistsIdRelationshipsOwners415),
+      "429": decodeError("UserCollectionArtistsIdRelationshipsOwners429", UserCollectionArtistsIdRelationshipsOwners429),
+      "500": decodeError("UserCollectionArtistsIdRelationshipsOwners500", UserCollectionArtistsIdRelationshipsOwners500),
+      "503": decodeError("UserCollectionArtistsIdRelationshipsOwners503", UserCollectionArtistsIdRelationshipsOwners503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionPlaylists/{id}": (id, options: Parameters<TidalApi["GET/userCollectionPlaylists/{id}"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionPlaylists/" + __encodePathParam(id) + "").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "include": options?.params?.["include"] as any, "includeLinkage": __joinComma(options?.params?.["includeLinkage"]) as any, "locale": options?.params?.["locale"] as any, "replaceMedia": options?.params?.["replaceMedia"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionPlaylistsId200),
+      "400": decodeError("UserCollectionPlaylistsId400", UserCollectionPlaylistsId400),
+      "404": decodeError("UserCollectionPlaylistsId404", UserCollectionPlaylistsId404),
+      "405": decodeError("UserCollectionPlaylistsId405", UserCollectionPlaylistsId405),
+      "406": decodeError("UserCollectionPlaylistsId406", UserCollectionPlaylistsId406),
+      "415": decodeError("UserCollectionPlaylistsId415", UserCollectionPlaylistsId415),
+      "429": decodeError("UserCollectionPlaylistsId429", UserCollectionPlaylistsId429),
+      "500": decodeError("UserCollectionPlaylistsId500", UserCollectionPlaylistsId500),
+      "503": decodeError("UserCollectionPlaylistsId503", UserCollectionPlaylistsId503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionPlaylists/{id}/relationships/items": (id, options: Parameters<TidalApi["GET/userCollectionPlaylists/{id}/relationships/items"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionPlaylists/" + __encodePathParam(id) + "/relationships/items").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "collectionView": options?.params?.["collectionView"] as any, "filter[self][matchesQuery]": options?.params?.["filter[self][matchesQuery]"] as any, "include": options?.params?.["include"] as any, "page[cursor]": options?.params?.["page[cursor]"] as any, "replaceMedia": options?.params?.["replaceMedia"] as any, "sort": options?.params?.["sort"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionPlaylistsIdRelationshipsItems200),
+      "400": decodeError("UserCollectionPlaylistsIdRelationshipsItems400", UserCollectionPlaylistsIdRelationshipsItems400),
+      "403": decodeError("UserCollectionPlaylistsIdRelationshipsItems403", UserCollectionPlaylistsIdRelationshipsItems403),
+      "404": decodeError("UserCollectionPlaylistsIdRelationshipsItems404", UserCollectionPlaylistsIdRelationshipsItems404),
+      "405": decodeError("UserCollectionPlaylistsIdRelationshipsItems405", UserCollectionPlaylistsIdRelationshipsItems405),
+      "406": decodeError("UserCollectionPlaylistsIdRelationshipsItems406", UserCollectionPlaylistsIdRelationshipsItems406),
+      "415": decodeError("UserCollectionPlaylistsIdRelationshipsItems415", UserCollectionPlaylistsIdRelationshipsItems415),
+      "429": decodeError("UserCollectionPlaylistsIdRelationshipsItems429", UserCollectionPlaylistsIdRelationshipsItems429),
+      "500": decodeError("UserCollectionPlaylistsIdRelationshipsItems500", UserCollectionPlaylistsIdRelationshipsItems500),
+      "503": decodeError("UserCollectionPlaylistsIdRelationshipsItems503", UserCollectionPlaylistsIdRelationshipsItems503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionPlaylists/{id}/relationships/owners": (id, options: Parameters<TidalApi["GET/userCollectionPlaylists/{id}/relationships/owners"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionPlaylists/" + __encodePathParam(id) + "/relationships/owners").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "include": options?.params?.["include"] as any, "page[cursor]": options?.params?.["page[cursor]"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionPlaylistsIdRelationshipsOwners200),
+      "400": decodeError("UserCollectionPlaylistsIdRelationshipsOwners400", UserCollectionPlaylistsIdRelationshipsOwners400),
+      "404": decodeError("UserCollectionPlaylistsIdRelationshipsOwners404", UserCollectionPlaylistsIdRelationshipsOwners404),
+      "405": decodeError("UserCollectionPlaylistsIdRelationshipsOwners405", UserCollectionPlaylistsIdRelationshipsOwners405),
+      "406": decodeError("UserCollectionPlaylistsIdRelationshipsOwners406", UserCollectionPlaylistsIdRelationshipsOwners406),
+      "415": decodeError("UserCollectionPlaylistsIdRelationshipsOwners415", UserCollectionPlaylistsIdRelationshipsOwners415),
+      "429": decodeError("UserCollectionPlaylistsIdRelationshipsOwners429", UserCollectionPlaylistsIdRelationshipsOwners429),
+      "500": decodeError("UserCollectionPlaylistsIdRelationshipsOwners500", UserCollectionPlaylistsIdRelationshipsOwners500),
+      "503": decodeError("UserCollectionPlaylistsIdRelationshipsOwners503", UserCollectionPlaylistsIdRelationshipsOwners503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionTracks/{id}": (id, options: Parameters<TidalApi["GET/userCollectionTracks/{id}"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionTracks/" + __encodePathParam(id) + "").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "include": options?.params?.["include"] as any, "includeLinkage": __joinComma(options?.params?.["includeLinkage"]) as any, "locale": options?.params?.["locale"] as any, "replaceMedia": options?.params?.["replaceMedia"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionTracksId200),
+      "400": decodeError("UserCollectionTracksId400", UserCollectionTracksId400),
+      "404": decodeError("UserCollectionTracksId404", UserCollectionTracksId404),
+      "405": decodeError("UserCollectionTracksId405", UserCollectionTracksId405),
+      "406": decodeError("UserCollectionTracksId406", UserCollectionTracksId406),
+      "415": decodeError("UserCollectionTracksId415", UserCollectionTracksId415),
+      "429": decodeError("UserCollectionTracksId429", UserCollectionTracksId429),
+      "500": decodeError("UserCollectionTracksId500", UserCollectionTracksId500),
+      "503": decodeError("UserCollectionTracksId503", UserCollectionTracksId503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionTracks/{id}/relationships/items": (id, options: Parameters<TidalApi["GET/userCollectionTracks/{id}/relationships/items"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionTracks/" + __encodePathParam(id) + "/relationships/items").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "filter[self][matchesQuery]": options?.params?.["filter[self][matchesQuery]"] as any, "include": options?.params?.["include"] as any, "locale": options?.params?.["locale"] as any, "page[cursor]": options?.params?.["page[cursor]"] as any, "replaceMedia": options?.params?.["replaceMedia"] as any, "sort": options?.params?.["sort"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionTracksIdRelationshipsItems200),
+      "400": decodeError("UserCollectionTracksIdRelationshipsItems400", UserCollectionTracksIdRelationshipsItems400),
+      "403": decodeError("UserCollectionTracksIdRelationshipsItems403", UserCollectionTracksIdRelationshipsItems403),
+      "404": decodeError("UserCollectionTracksIdRelationshipsItems404", UserCollectionTracksIdRelationshipsItems404),
+      "405": decodeError("UserCollectionTracksIdRelationshipsItems405", UserCollectionTracksIdRelationshipsItems405),
+      "406": decodeError("UserCollectionTracksIdRelationshipsItems406", UserCollectionTracksIdRelationshipsItems406),
+      "415": decodeError("UserCollectionTracksIdRelationshipsItems415", UserCollectionTracksIdRelationshipsItems415),
+      "429": decodeError("UserCollectionTracksIdRelationshipsItems429", UserCollectionTracksIdRelationshipsItems429),
+      "500": decodeError("UserCollectionTracksIdRelationshipsItems500", UserCollectionTracksIdRelationshipsItems500),
+      "503": decodeError("UserCollectionTracksIdRelationshipsItems503", UserCollectionTracksIdRelationshipsItems503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
+    "GET/userCollectionTracks/{id}/relationships/owners": (id, options: Parameters<TidalApi["GET/userCollectionTracks/{id}/relationships/owners"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/userCollectionTracks/" + __encodePathParam(id) + "/relationships/owners").pipe(
+    Effect.flatMap((request) => request.pipe(
+      HttpClientRequest.setUrlParams({ "include": options?.params?.["include"] as any, "page[cursor]": options?.params?.["page[cursor]"] as any }),
+      withResponse(options?.config)(HttpClientResponse.matchStatus({
+      "2xx": decodeSuccess(UserCollectionTracksIdRelationshipsOwners200),
+      "400": decodeError("UserCollectionTracksIdRelationshipsOwners400", UserCollectionTracksIdRelationshipsOwners400),
+      "404": decodeError("UserCollectionTracksIdRelationshipsOwners404", UserCollectionTracksIdRelationshipsOwners404),
+      "405": decodeError("UserCollectionTracksIdRelationshipsOwners405", UserCollectionTracksIdRelationshipsOwners405),
+      "406": decodeError("UserCollectionTracksIdRelationshipsOwners406", UserCollectionTracksIdRelationshipsOwners406),
+      "415": decodeError("UserCollectionTracksIdRelationshipsOwners415", UserCollectionTracksIdRelationshipsOwners415),
+      "429": decodeError("UserCollectionTracksIdRelationshipsOwners429", UserCollectionTracksIdRelationshipsOwners429),
+      "500": decodeError("UserCollectionTracksIdRelationshipsOwners500", UserCollectionTracksIdRelationshipsOwners500),
+      "503": decodeError("UserCollectionTracksIdRelationshipsOwners503", UserCollectionTracksIdRelationshipsOwners503),
+      orElse: unexpectedStatus
+    }))
+    ))
+  ),
     "GET/users/{id}": (id, options: Parameters<TidalApi["GET/users/{id}"]>[1]) => __makePathRequest(HttpClientRequest.get, [id], () => "/users/" + __encodePathParam(id) + "").pipe(
     Effect.flatMap((request) => request.pipe(
       HttpClientRequest.setUrlParams({ "include": options?.params?.["include"] as any, "includeLinkage": __joinComma(options?.params?.["includeLinkage"]) as any, "replaceMedia": options?.params?.["replaceMedia"] as any }),
@@ -5951,6 +6423,90 @@ readonly "GET/tracks/{id}/relationships/trackStatistics": {
 readonly "GET/tracks/{id}/relationships/usageRules": {
     <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof TracksIdRelationshipsUsageRulesParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<TracksIdRelationshipsUsageRules200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"TracksIdRelationshipsUsageRules400", TracksIdRelationshipsUsageRules400> | TidalApiError<"TracksIdRelationshipsUsageRules404", TracksIdRelationshipsUsageRules404> | TidalApiError<"TracksIdRelationshipsUsageRules405", TracksIdRelationshipsUsageRules405> | TidalApiError<"TracksIdRelationshipsUsageRules406", TracksIdRelationshipsUsageRules406> | TidalApiError<"TracksIdRelationshipsUsageRules415", TracksIdRelationshipsUsageRules415> | TidalApiError<"TracksIdRelationshipsUsageRules429", TracksIdRelationshipsUsageRules429> | TidalApiError<"TracksIdRelationshipsUsageRules500", TracksIdRelationshipsUsageRules500> | TidalApiError<"TracksIdRelationshipsUsageRules503", TracksIdRelationshipsUsageRules503>, R>;
     <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof TracksIdRelationshipsUsageRulesParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<TracksIdRelationshipsUsageRules200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"TracksIdRelationshipsUsageRules400", TracksIdRelationshipsUsageRules400> | TidalApiError<"TracksIdRelationshipsUsageRules404", TracksIdRelationshipsUsageRules404> | TidalApiError<"TracksIdRelationshipsUsageRules405", TracksIdRelationshipsUsageRules405> | TidalApiError<"TracksIdRelationshipsUsageRules406", TracksIdRelationshipsUsageRules406> | TidalApiError<"TracksIdRelationshipsUsageRules415", TracksIdRelationshipsUsageRules415> | TidalApiError<"TracksIdRelationshipsUsageRules429", TracksIdRelationshipsUsageRules429> | TidalApiError<"TracksIdRelationshipsUsageRules500", TracksIdRelationshipsUsageRules500> | TidalApiError<"TracksIdRelationshipsUsageRules503", TracksIdRelationshipsUsageRules503>, R>;
+  }
+  /**
+* Retrieves single userCollectionAlbum by id.
+*/
+readonly "GET/userCollectionAlbums/{id}": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionAlbumsIdParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionAlbumsId200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionAlbumsId400", UserCollectionAlbumsId400> | TidalApiError<"UserCollectionAlbumsId404", UserCollectionAlbumsId404> | TidalApiError<"UserCollectionAlbumsId405", UserCollectionAlbumsId405> | TidalApiError<"UserCollectionAlbumsId406", UserCollectionAlbumsId406> | TidalApiError<"UserCollectionAlbumsId415", UserCollectionAlbumsId415> | TidalApiError<"UserCollectionAlbumsId429", UserCollectionAlbumsId429> | TidalApiError<"UserCollectionAlbumsId500", UserCollectionAlbumsId500> | TidalApiError<"UserCollectionAlbumsId503", UserCollectionAlbumsId503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionAlbumsIdParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionAlbumsId200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionAlbumsId400", UserCollectionAlbumsId400> | TidalApiError<"UserCollectionAlbumsId404", UserCollectionAlbumsId404> | TidalApiError<"UserCollectionAlbumsId405", UserCollectionAlbumsId405> | TidalApiError<"UserCollectionAlbumsId406", UserCollectionAlbumsId406> | TidalApiError<"UserCollectionAlbumsId415", UserCollectionAlbumsId415> | TidalApiError<"UserCollectionAlbumsId429", UserCollectionAlbumsId429> | TidalApiError<"UserCollectionAlbumsId500", UserCollectionAlbumsId500> | TidalApiError<"UserCollectionAlbumsId503", UserCollectionAlbumsId503>, R>;
+  }
+  /**
+* Retrieves items relationship.
+*/
+readonly "GET/userCollectionAlbums/{id}/relationships/items": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionAlbumsIdRelationshipsItemsParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionAlbumsIdRelationshipsItems200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems400", UserCollectionAlbumsIdRelationshipsItems400> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems403", UserCollectionAlbumsIdRelationshipsItems403> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems404", UserCollectionAlbumsIdRelationshipsItems404> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems405", UserCollectionAlbumsIdRelationshipsItems405> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems406", UserCollectionAlbumsIdRelationshipsItems406> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems415", UserCollectionAlbumsIdRelationshipsItems415> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems429", UserCollectionAlbumsIdRelationshipsItems429> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems500", UserCollectionAlbumsIdRelationshipsItems500> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems503", UserCollectionAlbumsIdRelationshipsItems503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionAlbumsIdRelationshipsItemsParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionAlbumsIdRelationshipsItems200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems400", UserCollectionAlbumsIdRelationshipsItems400> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems403", UserCollectionAlbumsIdRelationshipsItems403> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems404", UserCollectionAlbumsIdRelationshipsItems404> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems405", UserCollectionAlbumsIdRelationshipsItems405> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems406", UserCollectionAlbumsIdRelationshipsItems406> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems415", UserCollectionAlbumsIdRelationshipsItems415> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems429", UserCollectionAlbumsIdRelationshipsItems429> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems500", UserCollectionAlbumsIdRelationshipsItems500> | TidalApiError<"UserCollectionAlbumsIdRelationshipsItems503", UserCollectionAlbumsIdRelationshipsItems503>, R>;
+  }
+  /**
+* Retrieves owners relationship.
+*/
+readonly "GET/userCollectionAlbums/{id}/relationships/owners": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionAlbumsIdRelationshipsOwnersParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionAlbumsIdRelationshipsOwners200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners400", UserCollectionAlbumsIdRelationshipsOwners400> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners404", UserCollectionAlbumsIdRelationshipsOwners404> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners405", UserCollectionAlbumsIdRelationshipsOwners405> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners406", UserCollectionAlbumsIdRelationshipsOwners406> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners415", UserCollectionAlbumsIdRelationshipsOwners415> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners429", UserCollectionAlbumsIdRelationshipsOwners429> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners500", UserCollectionAlbumsIdRelationshipsOwners500> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners503", UserCollectionAlbumsIdRelationshipsOwners503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionAlbumsIdRelationshipsOwnersParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionAlbumsIdRelationshipsOwners200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners400", UserCollectionAlbumsIdRelationshipsOwners400> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners404", UserCollectionAlbumsIdRelationshipsOwners404> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners405", UserCollectionAlbumsIdRelationshipsOwners405> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners406", UserCollectionAlbumsIdRelationshipsOwners406> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners415", UserCollectionAlbumsIdRelationshipsOwners415> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners429", UserCollectionAlbumsIdRelationshipsOwners429> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners500", UserCollectionAlbumsIdRelationshipsOwners500> | TidalApiError<"UserCollectionAlbumsIdRelationshipsOwners503", UserCollectionAlbumsIdRelationshipsOwners503>, R>;
+  }
+  /**
+* Retrieves single userCollectionArtist by id.
+*/
+readonly "GET/userCollectionArtists/{id}": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionArtistsIdParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionArtistsId200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionArtistsId400", UserCollectionArtistsId400> | TidalApiError<"UserCollectionArtistsId404", UserCollectionArtistsId404> | TidalApiError<"UserCollectionArtistsId405", UserCollectionArtistsId405> | TidalApiError<"UserCollectionArtistsId406", UserCollectionArtistsId406> | TidalApiError<"UserCollectionArtistsId415", UserCollectionArtistsId415> | TidalApiError<"UserCollectionArtistsId429", UserCollectionArtistsId429> | TidalApiError<"UserCollectionArtistsId500", UserCollectionArtistsId500> | TidalApiError<"UserCollectionArtistsId503", UserCollectionArtistsId503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionArtistsIdParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionArtistsId200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionArtistsId400", UserCollectionArtistsId400> | TidalApiError<"UserCollectionArtistsId404", UserCollectionArtistsId404> | TidalApiError<"UserCollectionArtistsId405", UserCollectionArtistsId405> | TidalApiError<"UserCollectionArtistsId406", UserCollectionArtistsId406> | TidalApiError<"UserCollectionArtistsId415", UserCollectionArtistsId415> | TidalApiError<"UserCollectionArtistsId429", UserCollectionArtistsId429> | TidalApiError<"UserCollectionArtistsId500", UserCollectionArtistsId500> | TidalApiError<"UserCollectionArtistsId503", UserCollectionArtistsId503>, R>;
+  }
+  /**
+* Retrieves items relationship.
+*/
+readonly "GET/userCollectionArtists/{id}/relationships/items": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionArtistsIdRelationshipsItemsParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionArtistsIdRelationshipsItems200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionArtistsIdRelationshipsItems400", UserCollectionArtistsIdRelationshipsItems400> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems403", UserCollectionArtistsIdRelationshipsItems403> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems404", UserCollectionArtistsIdRelationshipsItems404> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems405", UserCollectionArtistsIdRelationshipsItems405> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems406", UserCollectionArtistsIdRelationshipsItems406> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems415", UserCollectionArtistsIdRelationshipsItems415> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems429", UserCollectionArtistsIdRelationshipsItems429> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems500", UserCollectionArtistsIdRelationshipsItems500> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems503", UserCollectionArtistsIdRelationshipsItems503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionArtistsIdRelationshipsItemsParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionArtistsIdRelationshipsItems200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionArtistsIdRelationshipsItems400", UserCollectionArtistsIdRelationshipsItems400> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems403", UserCollectionArtistsIdRelationshipsItems403> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems404", UserCollectionArtistsIdRelationshipsItems404> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems405", UserCollectionArtistsIdRelationshipsItems405> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems406", UserCollectionArtistsIdRelationshipsItems406> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems415", UserCollectionArtistsIdRelationshipsItems415> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems429", UserCollectionArtistsIdRelationshipsItems429> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems500", UserCollectionArtistsIdRelationshipsItems500> | TidalApiError<"UserCollectionArtistsIdRelationshipsItems503", UserCollectionArtistsIdRelationshipsItems503>, R>;
+  }
+  /**
+* Retrieves owners relationship.
+*/
+readonly "GET/userCollectionArtists/{id}/relationships/owners": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionArtistsIdRelationshipsOwnersParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionArtistsIdRelationshipsOwners200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners400", UserCollectionArtistsIdRelationshipsOwners400> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners404", UserCollectionArtistsIdRelationshipsOwners404> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners405", UserCollectionArtistsIdRelationshipsOwners405> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners406", UserCollectionArtistsIdRelationshipsOwners406> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners415", UserCollectionArtistsIdRelationshipsOwners415> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners429", UserCollectionArtistsIdRelationshipsOwners429> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners500", UserCollectionArtistsIdRelationshipsOwners500> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners503", UserCollectionArtistsIdRelationshipsOwners503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionArtistsIdRelationshipsOwnersParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionArtistsIdRelationshipsOwners200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners400", UserCollectionArtistsIdRelationshipsOwners400> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners404", UserCollectionArtistsIdRelationshipsOwners404> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners405", UserCollectionArtistsIdRelationshipsOwners405> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners406", UserCollectionArtistsIdRelationshipsOwners406> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners415", UserCollectionArtistsIdRelationshipsOwners415> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners429", UserCollectionArtistsIdRelationshipsOwners429> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners500", UserCollectionArtistsIdRelationshipsOwners500> | TidalApiError<"UserCollectionArtistsIdRelationshipsOwners503", UserCollectionArtistsIdRelationshipsOwners503>, R>;
+  }
+  /**
+* Retrieves single userCollectionPlaylist by id.
+*/
+readonly "GET/userCollectionPlaylists/{id}": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionPlaylistsIdParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionPlaylistsId200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionPlaylistsId400", UserCollectionPlaylistsId400> | TidalApiError<"UserCollectionPlaylistsId404", UserCollectionPlaylistsId404> | TidalApiError<"UserCollectionPlaylistsId405", UserCollectionPlaylistsId405> | TidalApiError<"UserCollectionPlaylistsId406", UserCollectionPlaylistsId406> | TidalApiError<"UserCollectionPlaylistsId415", UserCollectionPlaylistsId415> | TidalApiError<"UserCollectionPlaylistsId429", UserCollectionPlaylistsId429> | TidalApiError<"UserCollectionPlaylistsId500", UserCollectionPlaylistsId500> | TidalApiError<"UserCollectionPlaylistsId503", UserCollectionPlaylistsId503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionPlaylistsIdParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionPlaylistsId200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionPlaylistsId400", UserCollectionPlaylistsId400> | TidalApiError<"UserCollectionPlaylistsId404", UserCollectionPlaylistsId404> | TidalApiError<"UserCollectionPlaylistsId405", UserCollectionPlaylistsId405> | TidalApiError<"UserCollectionPlaylistsId406", UserCollectionPlaylistsId406> | TidalApiError<"UserCollectionPlaylistsId415", UserCollectionPlaylistsId415> | TidalApiError<"UserCollectionPlaylistsId429", UserCollectionPlaylistsId429> | TidalApiError<"UserCollectionPlaylistsId500", UserCollectionPlaylistsId500> | TidalApiError<"UserCollectionPlaylistsId503", UserCollectionPlaylistsId503>, R>;
+  }
+  /**
+* Retrieves items relationship.
+*/
+readonly "GET/userCollectionPlaylists/{id}/relationships/items": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionPlaylistsIdRelationshipsItemsParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionPlaylistsIdRelationshipsItems200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems400", UserCollectionPlaylistsIdRelationshipsItems400> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems403", UserCollectionPlaylistsIdRelationshipsItems403> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems404", UserCollectionPlaylistsIdRelationshipsItems404> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems405", UserCollectionPlaylistsIdRelationshipsItems405> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems406", UserCollectionPlaylistsIdRelationshipsItems406> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems415", UserCollectionPlaylistsIdRelationshipsItems415> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems429", UserCollectionPlaylistsIdRelationshipsItems429> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems500", UserCollectionPlaylistsIdRelationshipsItems500> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems503", UserCollectionPlaylistsIdRelationshipsItems503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionPlaylistsIdRelationshipsItemsParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionPlaylistsIdRelationshipsItems200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems400", UserCollectionPlaylistsIdRelationshipsItems400> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems403", UserCollectionPlaylistsIdRelationshipsItems403> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems404", UserCollectionPlaylistsIdRelationshipsItems404> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems405", UserCollectionPlaylistsIdRelationshipsItems405> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems406", UserCollectionPlaylistsIdRelationshipsItems406> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems415", UserCollectionPlaylistsIdRelationshipsItems415> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems429", UserCollectionPlaylistsIdRelationshipsItems429> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems500", UserCollectionPlaylistsIdRelationshipsItems500> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsItems503", UserCollectionPlaylistsIdRelationshipsItems503>, R>;
+  }
+  /**
+* Retrieves owners relationship.
+*/
+readonly "GET/userCollectionPlaylists/{id}/relationships/owners": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionPlaylistsIdRelationshipsOwnersParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionPlaylistsIdRelationshipsOwners200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners400", UserCollectionPlaylistsIdRelationshipsOwners400> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners404", UserCollectionPlaylistsIdRelationshipsOwners404> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners405", UserCollectionPlaylistsIdRelationshipsOwners405> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners406", UserCollectionPlaylistsIdRelationshipsOwners406> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners415", UserCollectionPlaylistsIdRelationshipsOwners415> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners429", UserCollectionPlaylistsIdRelationshipsOwners429> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners500", UserCollectionPlaylistsIdRelationshipsOwners500> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners503", UserCollectionPlaylistsIdRelationshipsOwners503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionPlaylistsIdRelationshipsOwnersParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionPlaylistsIdRelationshipsOwners200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners400", UserCollectionPlaylistsIdRelationshipsOwners400> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners404", UserCollectionPlaylistsIdRelationshipsOwners404> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners405", UserCollectionPlaylistsIdRelationshipsOwners405> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners406", UserCollectionPlaylistsIdRelationshipsOwners406> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners415", UserCollectionPlaylistsIdRelationshipsOwners415> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners429", UserCollectionPlaylistsIdRelationshipsOwners429> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners500", UserCollectionPlaylistsIdRelationshipsOwners500> | TidalApiError<"UserCollectionPlaylistsIdRelationshipsOwners503", UserCollectionPlaylistsIdRelationshipsOwners503>, R>;
+  }
+  /**
+* Retrieves single userCollectionTrack by id.
+*/
+readonly "GET/userCollectionTracks/{id}": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionTracksIdParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionTracksId200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionTracksId400", UserCollectionTracksId400> | TidalApiError<"UserCollectionTracksId404", UserCollectionTracksId404> | TidalApiError<"UserCollectionTracksId405", UserCollectionTracksId405> | TidalApiError<"UserCollectionTracksId406", UserCollectionTracksId406> | TidalApiError<"UserCollectionTracksId415", UserCollectionTracksId415> | TidalApiError<"UserCollectionTracksId429", UserCollectionTracksId429> | TidalApiError<"UserCollectionTracksId500", UserCollectionTracksId500> | TidalApiError<"UserCollectionTracksId503", UserCollectionTracksId503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionTracksIdParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionTracksId200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionTracksId400", UserCollectionTracksId400> | TidalApiError<"UserCollectionTracksId404", UserCollectionTracksId404> | TidalApiError<"UserCollectionTracksId405", UserCollectionTracksId405> | TidalApiError<"UserCollectionTracksId406", UserCollectionTracksId406> | TidalApiError<"UserCollectionTracksId415", UserCollectionTracksId415> | TidalApiError<"UserCollectionTracksId429", UserCollectionTracksId429> | TidalApiError<"UserCollectionTracksId500", UserCollectionTracksId500> | TidalApiError<"UserCollectionTracksId503", UserCollectionTracksId503>, R>;
+  }
+  /**
+* Retrieves items relationship.
+*/
+readonly "GET/userCollectionTracks/{id}/relationships/items": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionTracksIdRelationshipsItemsParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionTracksIdRelationshipsItems200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionTracksIdRelationshipsItems400", UserCollectionTracksIdRelationshipsItems400> | TidalApiError<"UserCollectionTracksIdRelationshipsItems403", UserCollectionTracksIdRelationshipsItems403> | TidalApiError<"UserCollectionTracksIdRelationshipsItems404", UserCollectionTracksIdRelationshipsItems404> | TidalApiError<"UserCollectionTracksIdRelationshipsItems405", UserCollectionTracksIdRelationshipsItems405> | TidalApiError<"UserCollectionTracksIdRelationshipsItems406", UserCollectionTracksIdRelationshipsItems406> | TidalApiError<"UserCollectionTracksIdRelationshipsItems415", UserCollectionTracksIdRelationshipsItems415> | TidalApiError<"UserCollectionTracksIdRelationshipsItems429", UserCollectionTracksIdRelationshipsItems429> | TidalApiError<"UserCollectionTracksIdRelationshipsItems500", UserCollectionTracksIdRelationshipsItems500> | TidalApiError<"UserCollectionTracksIdRelationshipsItems503", UserCollectionTracksIdRelationshipsItems503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionTracksIdRelationshipsItemsParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionTracksIdRelationshipsItems200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionTracksIdRelationshipsItems400", UserCollectionTracksIdRelationshipsItems400> | TidalApiError<"UserCollectionTracksIdRelationshipsItems403", UserCollectionTracksIdRelationshipsItems403> | TidalApiError<"UserCollectionTracksIdRelationshipsItems404", UserCollectionTracksIdRelationshipsItems404> | TidalApiError<"UserCollectionTracksIdRelationshipsItems405", UserCollectionTracksIdRelationshipsItems405> | TidalApiError<"UserCollectionTracksIdRelationshipsItems406", UserCollectionTracksIdRelationshipsItems406> | TidalApiError<"UserCollectionTracksIdRelationshipsItems415", UserCollectionTracksIdRelationshipsItems415> | TidalApiError<"UserCollectionTracksIdRelationshipsItems429", UserCollectionTracksIdRelationshipsItems429> | TidalApiError<"UserCollectionTracksIdRelationshipsItems500", UserCollectionTracksIdRelationshipsItems500> | TidalApiError<"UserCollectionTracksIdRelationshipsItems503", UserCollectionTracksIdRelationshipsItems503>, R>;
+  }
+  /**
+* Retrieves owners relationship.
+*/
+readonly "GET/userCollectionTracks/{id}/relationships/owners": {
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionTracksIdRelationshipsOwnersParams.Encoded | undefined; readonly config: Config }): Effect.Effect<WithOptionalResponse<UserCollectionTracksIdRelationshipsOwners200, Config>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionTracksIdRelationshipsOwners400", UserCollectionTracksIdRelationshipsOwners400> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners404", UserCollectionTracksIdRelationshipsOwners404> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners405", UserCollectionTracksIdRelationshipsOwners405> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners406", UserCollectionTracksIdRelationshipsOwners406> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners415", UserCollectionTracksIdRelationshipsOwners415> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners429", UserCollectionTracksIdRelationshipsOwners429> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners500", UserCollectionTracksIdRelationshipsOwners500> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners503", UserCollectionTracksIdRelationshipsOwners503>, R>;
+    <Config extends OperationConfig | undefined = undefined>(id: string, options: { readonly params?: typeof UserCollectionTracksIdRelationshipsOwnersParams.Encoded | undefined; readonly config?: Config | undefined } | undefined): Effect.Effect<WithOptionalResponse<UserCollectionTracksIdRelationshipsOwners200, Config | undefined>, E | HttpClientError.HttpClientError | SchemaError | TidalApiError<"UserCollectionTracksIdRelationshipsOwners400", UserCollectionTracksIdRelationshipsOwners400> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners404", UserCollectionTracksIdRelationshipsOwners404> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners405", UserCollectionTracksIdRelationshipsOwners405> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners406", UserCollectionTracksIdRelationshipsOwners406> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners415", UserCollectionTracksIdRelationshipsOwners415> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners429", UserCollectionTracksIdRelationshipsOwners429> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners500", UserCollectionTracksIdRelationshipsOwners500> | TidalApiError<"UserCollectionTracksIdRelationshipsOwners503", UserCollectionTracksIdRelationshipsOwners503>, R>;
   }
   /**
 * Retrieves single user by id.

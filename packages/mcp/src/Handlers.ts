@@ -1,7 +1,9 @@
-import { JsonApi, TidalClient, TidalConfig } from "@tidal-mcp/tidal-api"
+import { DEFAULT_REQUEST_BUDGET, JsonApi, makeClient, TidalClient, TidalConfig } from "@tidal-mcp/tidal-api"
 import { Effect } from "effect"
+import { HttpClient } from "effect/http"
 import { toToolError } from "./Errors.ts"
-import { type SearchTypes, TidalResult, TidalToolError, TidalToolkit } from "./Tools.ts"
+import * as Library from "./Library.ts"
+import { CurrentTidalUser, type SearchTypes, TidalResult, TidalToolError, TidalToolkit } from "./Tools.ts"
 
 type Result = typeof TidalResult.Type
 
@@ -12,12 +14,27 @@ const simplified = <E, R>(request: Effect.Effect<JsonApi.Document, E, R>): Effec
     Effect.mapError(toToolError)
   )
 
-const page = (cursor: string | undefined) => (cursor === undefined ? {} : { "page[cursor]": cursor })
+const { page } = Library
 
+const unsupportedSort = (type: string) =>
+  Effect.fail(new TidalToolError({ message: `'releaseDate' sorting is only available for albums, not ${type}.` }))
+
+/**
+ * Handlers for every tool. Catalogue tools call TIDAL with the app's
+ * client-credentials token (`TidalClient`); the rest call it as the signed-in
+ * user, with the token from `CurrentTidalUser`.
+ */
 export const TidalToolkitHandlers = TidalToolkit.toLayer(Effect.gen(function*() {
   const tidal = yield* TidalClient
   const config = yield* TidalConfig
+  const http = yield* HttpClient.HttpClient
   const market = (countryCode: string | undefined) => countryCode ?? config.countryCode
+  const budget = () => Library.makeBudget(config.requestBudget ?? DEFAULT_REQUEST_BUDGET)
+  /** A TIDAL client acting as the user behind the current MCP request. */
+  const asUser = Effect.gen(function*() {
+    const user = yield* CurrentTidalUser
+    return makeClient(http, config, user.accessToken)
+  })
 
   const search = {
     topHits: (id: string, params: SearchParams) =>
@@ -125,14 +142,62 @@ export const TidalToolkitHandlers = TidalToolkit.toLayer(Effect.gen(function*() 
       })),
 
     get_playlist: ({ id, countryCode }) =>
-      simplified(tidal["GET/playlists/{id}"](id, {
-        params: { countryCode: market(countryCode), include: ["coverArt"] }
-      })),
+      Effect.flatMap(asUser, (user) =>
+        simplified(user["GET/playlists/{id}"](id, {
+          params: { countryCode: market(countryCode), include: ["coverArt"] }
+        }))),
 
     get_playlist_items: ({ id, countryCode, cursor }) =>
-      simplified(tidal["GET/playlists/{id}/relationships/items"](id, {
-        params: { countryCode: market(countryCode), include: ["items", "items.artists"], ...page(cursor) }
-      }))
+      Effect.flatMap(asUser, (user) =>
+        simplified(user["GET/playlists/{id}/relationships/items"](id, {
+          params: { countryCode: market(countryCode), include: ["items", "items.artists"], ...page(cursor) }
+        }))),
+
+    find_my_playlists: ({ query }) =>
+      Effect.flatMap(asUser, (user) => Library.findMyPlaylists(user, budget(), query)),
+
+    get_playlist_artists: ({ id, countryCode }) =>
+      Effect.flatMap(asUser, (user) => Library.getPlaylistArtists(user, budget(), id, market(countryCode))),
+
+    get_new_releases: ({ countryCode, ...input }) =>
+      Effect.flatMap(asUser, (user) => Library.getNewReleases(tidal, user, budget(), input, market(countryCode))),
+
+    get_my_collection: ({ type, sort = "recentlyAdded", cursor }) =>
+      Effect.flatMap(asUser, (user) => {
+        const byAdded = sort === "recentlyAdded" ? "-addedAt" : sort === "oldestAdded" ? "addedAt" : undefined
+        switch (type) {
+          case "albums":
+            return simplified(user["GET/userCollectionAlbums/{id}/relationships/items"]("me", {
+              params: {
+                include: ["items", "items.artists"],
+                sort: [byAdded ?? (sort === "name" ? "title" : "-releaseDate")],
+                ...page(cursor)
+              }
+            }))
+          case "tracks":
+            return sort === "releaseDate" ? unsupportedSort(type) : simplified(
+              user["GET/userCollectionTracks/{id}/relationships/items"]("me", {
+                params: {
+                  include: ["items", "items.artists", "items.albums"],
+                  sort: [byAdded ?? "title"],
+                  ...page(cursor)
+                }
+              })
+            )
+          case "artists":
+            return sort === "releaseDate" ? unsupportedSort(type) : simplified(
+              user["GET/userCollectionArtists/{id}/relationships/items"]("me", {
+                params: { include: ["items"], sort: [byAdded ?? "name"], ...page(cursor) }
+              })
+            )
+          case "playlists":
+            return sort === "releaseDate" ? unsupportedSort(type) : simplified(
+              user["GET/userCollectionPlaylists/{id}/relationships/items"]("me", {
+                params: { include: ["items"], collectionView: "FLAT", sort: [byAdded ?? "name"], ...page(cursor) }
+              })
+            )
+        }
+      })
   })
 }))
 

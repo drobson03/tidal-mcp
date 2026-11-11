@@ -19,8 +19,10 @@ import {
   parseAccessTokenAuthorization,
   verifyJwsAccessToken
 } from "better-auth/oauth2"
+import { CurrentTidalUser, TidalToolError } from "@tidal-mcp/mcp"
 import { Effect, type Layer } from "effect"
 import { HttpRouter, HttpServerRequest, HttpServerResponse } from "effect/http"
+import { TIDAL_PROVIDER_ID } from "./BetterAuth.ts"
 import { type AuthDb, type CurrentAuth, requestOrigin } from "./CurrentAuth.ts"
 
 type AccessTokenClaims = Awaited<ReturnType<typeof verifyJwsAccessToken>>
@@ -92,18 +94,54 @@ export const verifyMcpRequest = async (
   }
 }
 
-/** Global router middleware requiring a valid access token on every path under `path`. */
+const reconnect = (message: string) =>
+  new TidalToolError({ message: `${message} Reconnect this MCP client to sign in to TIDAL again.` })
+
+/**
+ * The signed-in user's TIDAL access token, from the account Better Auth
+ * stored at sign-in. `getAccessToken` decrypts it and refreshes it when it is
+ * about to expire. Cached, so a request only looks it up once.
+ */
+export const tidalUser = (auth: CurrentAuth["auth"], userId: string) =>
+  Effect.map(
+    Effect.cached(
+      Effect.tryPromise({
+        try: async () => {
+          const { internalAdapter } = await auth.$context
+          const account = (await internalAdapter.findAccounts(userId)).find((a) => a.providerId === TIDAL_PROVIDER_ID)
+          if (account === undefined) return undefined
+          const { accessToken } = await auth.api.getAccessToken({ body: { accountId: account.id, userId } })
+          return accessToken
+        },
+        catch: () => reconnect("Couldn't get a TIDAL access token (it may have been revoked).")
+      }).pipe(
+        Effect.flatMap((token) =>
+          token === undefined || token === "" ? Effect.fail(reconnect("No TIDAL account is linked.")) : Effect.succeed(token)
+        )
+      )
+    ),
+    (accessToken) => CurrentTidalUser.of({ accessToken })
+  )
+
+/**
+ * Global router middleware requiring a valid access token on every path under
+ * `path`, and providing the token's user as `CurrentTidalUser` there.
+ */
 export const layer = (options: {
   readonly path: `/${string}`
   readonly currentAuth: Effect.Effect<CurrentAuth, never, HttpServerRequest.HttpServerRequest | AuthDb>
-}): Layer.Layer<never, never, HttpRouter.HttpRouter | HttpRouter.Request.From<"GlobalRequires", AuthDb>> =>
-  HttpRouter.middleware(
+}): Layer.Layer<
+  HttpRouter.Request.From<"Requires" | "GlobalRequires", CurrentTidalUser>,
+  never,
+  HttpRouter.HttpRouter | HttpRouter.Request.From<"GlobalRequires", AuthDb>
+> =>
+  HttpRouter.middleware<{ provides: CurrentTidalUser }>()(
     (httpEffect) =>
       Effect.gen(function*() {
         const request = yield* HttpServerRequest.HttpServerRequest
         const url = new URL(request.url, requestOrigin(request))
         if (url.pathname !== options.path && !url.pathname.startsWith(`${options.path}/`)) {
-          return yield* httpEffect
+          return yield* Effect.provideService(httpEffect, CurrentTidalUser, CurrentTidalUser.signedOut)
         }
         const current = yield* options.currentAuth
         const result = yield* Effect.promise(() =>
@@ -115,7 +153,8 @@ export const layer = (options: {
           })
         )
         if ("response" in result) return HttpServerResponse.fromWeb(result.response)
-        return yield* httpEffect
+        const user = yield* tidalUser(current.auth, String(result.claims.sub))
+        return yield* Effect.provideService(httpEffect, CurrentTidalUser, user)
       }),
     { global: true }
   )

@@ -33,6 +33,11 @@ const RESOURCES = new Set([
   "searchResults",
   "searchSuggestions",
   "tracks",
+  // The signed-in user's library, as `me` (needs the user's token with `collection.read`).
+  "userCollectionAlbums",
+  "userCollectionArtists",
+  "userCollectionPlaylists",
+  "userCollectionTracks",
   "users",
   "videos"
 ])

@@ -1,10 +1,25 @@
-import { Schema } from "effect"
+import { Context, Effect, Schema } from "effect"
 import { Tool, Toolkit } from "effect/ai"
 
 /** A tool failure surfaced to the model as an `isError` result with `message`. */
 export class TidalToolError extends Schema.TaggedError<TidalToolError>()("TidalToolError", {
   message: Schema.String
 }) {}
+
+/**
+ * The signed-in TIDAL user behind the current MCP request, provided per
+ * request by the host (the Worker resolves it from the OAuth access token).
+ * `accessToken` is the user's TIDAL token, refreshed when needed; tools that
+ * read the user's library or private playlists call TIDAL with it.
+ */
+export class CurrentTidalUser extends Context.Service<CurrentTidalUser, {
+  readonly accessToken: Effect.Effect<string, TidalToolError>
+}>()("@tidal-mcp/mcp/CurrentTidalUser") {
+  /** For requests without a signed-in user. */
+  static readonly signedOut = CurrentTidalUser.of({
+    accessToken: Effect.fail(new TidalToolError({ message: "Not signed in to TIDAL." }))
+  })
+}
 
 /**
  * Every tool returns simplified JSON:API data (attributes inlined, included
@@ -44,6 +59,26 @@ const make = <const Name extends string, Parameters extends Schema.Struct.Fields
     parameters: Schema.Struct(parameters),
     success: TidalResult,
     failure: TidalToolError
+  })
+    .annotate(Tool.Title, title)
+    .annotate(Tool.Readonly, true)
+    .annotate(Tool.Idempotent, true)
+    .annotate(Tool.Destructive, false)
+    .annotate(Tool.OpenWorld, true)
+
+/** A tool that calls TIDAL as the signed-in user. */
+const makeUser = <const Name extends string, Parameters extends Schema.Struct.Fields>(
+  name: Name,
+  title: string,
+  description: string,
+  parameters: Parameters
+) =>
+  Tool.make(name, {
+    description,
+    parameters: Schema.Struct(parameters),
+    success: TidalResult,
+    failure: TidalToolError,
+    dependencies: [CurrentTidalUser]
   })
     .annotate(Tool.Title, title)
     .annotate(Tool.Readonly, true)
@@ -153,18 +188,75 @@ export const GetSimilarArtists = make(
   { id: Id("artist"), ...fields }
 )
 
-export const GetPlaylist = make(
+export const GetPlaylist = makeUser(
   "get_playlist",
   "Get playlist",
-  "A playlist's details: name, description, size, owner and cover art. Playlist ids are UUIDs.",
+  "A playlist's details: name, description, size, owner and cover art. Playlist ids are UUIDs. Works for the user's private playlists.",
   { id: Id("playlist"), countryCode: fields.countryCode }
 )
 
-export const GetPlaylistItems = make(
+export const GetPlaylistItems = makeUser(
   "get_playlist_items",
   "Playlist tracks",
-  "The tracks and videos in a playlist, in order, with their artists and when each was added (`meta.addedAt`).",
+  "The tracks and videos in a playlist, in order, with their artists and when each was added (`meta.addedAt`). Works for the user's private playlists.",
   { id: Id("playlist"), ...fields }
+)
+
+export const FindMyPlaylists = makeUser(
+  "find_my_playlists",
+  "Find my playlists",
+  "The signed-in user's playlists: ones they own (including private ones) and ones saved to their library. Pass `query` to match names, e.g. 'good'. Returns playlist ids for get_playlist_artists and get_playlist_items.",
+  {
+    query: Schema.optionalKey(Schema.String.check(Schema.isMinLength(1), Schema.isMaxLength(100)).annotate({
+      description: "Case-insensitive text to find in playlist names. Omit to list every playlist."
+    }))
+  }
+)
+
+export const CollectionTypes = ["albums", "tracks", "artists", "playlists"] as const
+export const CollectionSorts = ["recentlyAdded", "oldestAdded", "name", "releaseDate"] as const
+
+export const GetMyCollection = makeUser(
+  "get_my_collection",
+  "My collection",
+  "One page of the signed-in user's saved albums, tracks, artists or playlists (their TIDAL library), with when each was saved (`meta.addedAt`).",
+  {
+    type: Schema.Literals(CollectionTypes).annotate({ description: "What to list." }),
+    sort: Schema.optionalKey(Schema.Literals(CollectionSorts).annotate({
+      description: "Order: 'recentlyAdded' (default), 'oldestAdded', 'name' (title for albums and tracks), or 'releaseDate' (newest first; albums only)."
+    })),
+    cursor: fields.cursor
+  }
+)
+
+export const GetPlaylistArtists = makeUser(
+  "get_playlist_artists",
+  "Playlist artists",
+  "Every artist on a playlist, with how many of its tracks each appears on, most frequent first. Reads the whole playlist in one call, so prefer it to paging get_playlist_items when you only need the artists. Works for the user's private playlists.",
+  { id: Id("playlist"), countryCode: fields.countryCode }
+)
+
+export const ReleaseTypes = ["ALBUM", "EP", "SINGLE"] as const
+
+export const GetNewReleases = makeUser(
+  "get_new_releases",
+  "New releases from artists",
+  "Albums, EPs and singles that the given artists released on or after `since`, newest first, with editions of the same release grouped. By default it leaves out releases already in the signed-in user's library (saved albums, or albums of saved tracks), which answers 'what have I missed from these artists'. Each call has a request budget: if `remainingArtistIds` is returned, call again with those ids to finish.",
+  {
+    artistIds: Schema.Array(Schema.String).check(Schema.isMinLength(1), Schema.isMaxLength(50)).annotate({
+      description: "1-50 TIDAL artist ids, e.g. from get_playlist_artists."
+    }),
+    since: Schema.String.check(Schema.isPattern(/^\d{4}-\d{2}-\d{2}$/)).annotate({
+      description: "Earliest release date to include, as YYYY-MM-DD, e.g. two years before today."
+    }),
+    types: Schema.optionalKey(Schema.Array(Schema.Literals(ReleaseTypes)).check(Schema.isMinLength(1)).annotate({
+      description: "Release types to include. Defaults to all: ALBUM, EP and SINGLE."
+    })),
+    excludeLibrary: Schema.optionalKey(Schema.Boolean.annotate({
+      description: "Leave out releases already in the user's library. Defaults to true."
+    })),
+    countryCode: fields.countryCode
+  }
 )
 
 export const TidalToolkit = Toolkit.make(
@@ -180,5 +272,9 @@ export const TidalToolkit = Toolkit.make(
   GetArtistTracks,
   GetSimilarArtists,
   GetPlaylist,
-  GetPlaylistItems
+  GetPlaylistItems,
+  FindMyPlaylists,
+  GetMyCollection,
+  GetPlaylistArtists,
+  GetNewReleases
 )

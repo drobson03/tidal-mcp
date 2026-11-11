@@ -24,6 +24,8 @@ export const toToolError = (error: unknown): TidalToolError => {
     const detail = detailOf(error.cause)
     const hint = status === 404
       ? "Not found: check the id, or try another countryCode (availability is per market)."
+      : status === 401 || status === 403
+      ? `TIDAL refused access (HTTP ${String(status)}). For the user's library and private playlists, the user must reconnect this MCP client and approve the playlists.read and collection.read permissions.`
       : status === 429
       ? "Rate limited by TIDAL; retry shortly."
       : `TIDAL returned HTTP ${String(status)}.`

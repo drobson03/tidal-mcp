@@ -71,6 +71,156 @@ const oneMoreTime = {
   }
 }
 
+// ---------------------------------------------------------------------------
+// The user's library, for the user-token tools: playlists "Good" and "Gym" of
+// their own, a saved "Good Vibes", and the artists on "Good".
+
+const USER_TOKEN = "Bearer tidal-user-token:code-alice"
+const links = (self: string, next?: string) => ({ self, ...(next ? { next } : {}) })
+const ids = (type: string, list: ReadonlyArray<string>) => ({
+  data: list.map((id) => ({ id, type })),
+  links: { self: "/relationships" }
+})
+
+const playlist = (id: string, name: string) => ({
+  id,
+  type: "playlists",
+  attributes: {
+    accessType: "PUBLIC",
+    bounded: true,
+    createdAt: "2020-01-01T00:00:00Z",
+    externalLinks: [],
+    lastModifiedAt: "2026-01-01T00:00:00Z",
+    name,
+    numberOfFollowers: 0,
+    numberOfItems: 2,
+    playlistType: "USER"
+  }
+})
+
+const artist = (id: string, name: string) => ({ id, type: "artists", attributes: { name, popularity: 0.5 } })
+const ARTISTS = [artist("a1", "Artist One"), artist("a2", "Artist Two")]
+
+const album = (
+  id: string,
+  title: string,
+  albumType: "ALBUM" | "EP" | "SINGLE",
+  releaseDate: string,
+  artists: ReadonlyArray<string>
+) => ({
+  id,
+  type: "albums",
+  attributes: {
+    albumType,
+    barcodeId: null,
+    duration: "PT40M",
+    explicit: false,
+    mediaTags: [],
+    numberOfItems: 10,
+    numberOfVolumes: 1,
+    popularity: 0.5,
+    releaseDate,
+    title
+  },
+  relationships: { artists: ids("artists", artists) }
+})
+
+const track = (id: string, title: string, artists: ReadonlyArray<string>, albums: ReadonlyArray<string> = []) => ({
+  ...oneMoreTime,
+  id,
+  attributes: { ...oneMoreTime.attributes, title },
+  relationships: { artists: ids("artists", artists), albums: ids("albums", albums) }
+})
+
+/** Discographies. Since 2024-11-11, a1 has a new album (and its deluxe edition), a single the user saved and an EP with a2; a2 also has an album the user saved a track from. */
+const DISCOGRAPHY: Record<string, ReadonlyArray<ReturnType<typeof album>>> = {
+  a1: [
+    album("al-old", "Old Album", "ALBUM", "2020-01-01", ["a1"]),
+    album("al-new", "New Album", "ALBUM", "2026-03-01", ["a1"]),
+    album("al-new-dlx", "New Album (Deluxe Edition)", "ALBUM", "2026-06-01", ["a1"]),
+    album("al-single", "Saved Single", "SINGLE", "2025-10-01", ["a1"]),
+    album("al-collab", "Collab EP", "EP", "2025-06-01", ["a1", "a2"])
+  ],
+  a2: [
+    album("al-collab", "Collab EP", "EP", "2025-06-01", ["a1", "a2"]),
+    album("al-heard", "Heard It", "ALBUM", "2025-02-01", ["a2"])
+  ]
+}
+
+const libraryRoute = (url: URL): Response | undefined => {
+  const cursor = url.searchParams.get("page[cursor]")
+  switch (url.pathname.replace(/^\/v2/, "")) {
+    case "/playlists":
+      return json({
+        data: [playlist("pl-good", "Good"), playlist("pl-gym", "Gym")],
+        links: links("/playlists")
+      })
+    case "/userCollectionPlaylists/me/relationships/items":
+      return json({
+        data: [
+          { id: "pl-vibes", type: "playlists", meta: { addedAt: "2025-01-01T00:00:00Z" } },
+          { id: "pl-good", type: "playlists", meta: { addedAt: "2024-01-01T00:00:00Z" } }
+        ],
+        included: [playlist("pl-vibes", "Good Vibes"), playlist("pl-good", "Good")],
+        links: links(url.pathname)
+      })
+    case "/playlists/pl-good/relationships/items":
+      // Two pages: a1 is on both tracks, a2 on the first.
+      return cursor === null
+        ? json({
+          data: [{ id: "t1", type: "tracks", meta: { itemId: "i1" } }],
+          included: [track("t1", "First", ["a1", "a2", "a1"]), ...ARTISTS],
+          links: links(url.pathname, `${url.pathname}?page%5Bcursor%5D=p2`)
+        })
+        : json({
+          data: [{ id: "t2", type: "tracks", meta: { itemId: "i2" } }],
+          included: [track("t2", "Second", ["a1"]), ARTISTS[0]],
+          links: links(url.pathname)
+        })
+    case "/userCollectionAlbums/me/relationships/items":
+      // Newest release first: the second album is older than `since`, so reading stops.
+      return json({
+        data: [
+          { id: "al-single", type: "albums", meta: { addedAt: "2025-10-02T00:00:00Z" } },
+          { id: "al-ancient", type: "albums", meta: { addedAt: "2019-01-01T00:00:00Z" } }
+        ],
+        included: [DISCOGRAPHY["a1"]![3], album("al-ancient", "Ancient", "ALBUM", "2019-01-01", ["a1"]), ...ARTISTS],
+        links: links(url.pathname, `${url.pathname}?page%5Bcursor%5D=never-read`)
+      })
+    case "/userCollectionTracks/me/relationships/items":
+      // A track from another edition of "Heard It" (so a different album id), then one saved long ago.
+      return json({
+        data: [
+          { id: "t9", type: "tracks", meta: { addedAt: "2025-05-01T00:00:00Z" } },
+          { id: "t8", type: "tracks", meta: { addedAt: "2023-01-01T00:00:00Z" } }
+        ],
+        included: [
+          track("t9", "Heard It Track", ["a2"], ["al-heard-clean"]),
+          track("t8", "Older", ["a1"], ["al-old"]),
+          album("al-heard-clean", "Heard It (Clean)", "ALBUM", "2025-02-01", ["a2"]),
+          DISCOGRAPHY["a1"]![0],
+          ...ARTISTS
+        ],
+        links: links(url.pathname, `${url.pathname}?page%5Bcursor%5D=never-read`)
+      })
+  }
+  return undefined
+}
+
+const catalogueRoute = (url: URL): Response | undefined => {
+  const path = url.pathname.replace(/^\/v2/, "")
+  if (path === "/artists") {
+    const wanted = url.searchParams.getAll("filter[id]")
+    return json({ data: ARTISTS.filter((a) => wanted.includes(a.id)), links: links(path) })
+  }
+  const discography = /^\/artists\/([^/]+)\/relationships\/albums$/.exec(path)
+  if (discography) {
+    const albums = DISCOGRAPHY[decodeURIComponent(discography[1]!)] ?? []
+    return json({ data: albums.map(({ id, type }) => ({ id, type })), included: albums, links: links(path) })
+  }
+  return undefined
+}
+
 /** TIDAL accounts, keyed by the authorization code TIDAL "issues" for them. */
 const ACCOUNTS: Record<string, { id: string; username: string; email: string; firstName: string }> = {
   "code-alice": { id: "1001", username: "alice", email: "alice@example.com", firstName: "Alice" },
@@ -148,8 +298,19 @@ const FakeTidal = Layer.succeed(
         }))
       case `GET ${API}/tracks`:
         return respond(json({ data: [oneMoreTime], included: [daftPunk], links: { self: "/tracks" } }))
-      default:
+      default: {
+        const library = libraryRoute(url)
+        if (library !== undefined) {
+          return respond(
+            authorization === USER_TOKEN
+              ? library
+              : json({ errors: [{ status: "401", detail: "User token required" }] }, 401)
+          )
+        }
+        const catalogue = catalogueRoute(url)
+        if (catalogue !== undefined) return respond(catalogue)
         return respond(json({ errors: [{ status: "404", detail: "Resource not found" }] }, 404))
+      }
     }
   })
 )
@@ -542,6 +703,80 @@ describe("worker app", () => {
       const text = result.content[0]
       assert.strictEqual(text?.type, "text")
       assert.match((text as { text: string }).text, /Not found.*Resource not found/)
+    }).pipe(Effect.provide(authorized)))
+
+  it.effect("find_my_playlists finds owned and saved playlists with the user's token", () =>
+    Effect.gen(function*() {
+      const result = yield* callTool("find_my_playlists", { query: "good" })
+      assert.isFalse(result.isError, JSON.stringify(result.content))
+      const { playlists } = (result.structuredContent as { data: { playlists: Array<Record<string, unknown>> } }).data
+      assert.deepStrictEqual(playlists.map((p) => [p["id"], p["owned"], p["saved"]]), [
+        ["pl-good", true, true],
+        ["pl-vibes", false, true]
+      ])
+      const owned = tidalRequests.findLast((request) => request.url.pathname.endsWith("/playlists"))!
+      assert.strictEqual(owned.authorization, USER_TOKEN)
+      assert.deepStrictEqual(owned.url.searchParams.getAll("filter[owners.id]"), ["me"])
+    }).pipe(Effect.provide(authorized)))
+
+  it.effect("get_playlist_artists reads every page of a playlist", () =>
+    Effect.gen(function*() {
+      const result = yield* callTool("get_playlist_artists", { id: "pl-good" })
+      assert.isFalse(result.isError, JSON.stringify(result.content))
+      assert.deepStrictEqual(result.structuredContent, {
+        data: {
+          playlistId: "pl-good",
+          itemsRead: 2,
+          artists: [{ id: "a1", name: "Artist One", tracks: 2 }, { id: "a2", name: "Artist Two", tracks: 1 }]
+        }
+      })
+    }).pipe(Effect.provide(authorized)))
+
+  it.effect("get_new_releases leaves out what's already in the library", () =>
+    Effect.gen(function*() {
+      const result = yield* callTool("get_new_releases", { artistIds: ["a1", "a2"], since: "2024-11-11" })
+      assert.isFalse(result.isError, JSON.stringify(result.content))
+      const data = (result.structuredContent as { data: Record<string, any> }).data
+      assert.deepStrictEqual(
+        data["releases"].map((r: Record<string, unknown>) => [r["id"], r["type"], r["otherVersionIds"]]),
+        [["al-new", "ALBUM", ["al-new-dlx"]], ["al-collab", "EP", undefined]]
+      )
+      assert.deepStrictEqual(data["releases"][1]["artists"], [
+        { id: "a1", name: "Artist One" },
+        { id: "a2", name: "Artist Two" }
+      ])
+      // "Saved Single" is a saved album; "Heard It" is saved through a track from another edition.
+      assert.strictEqual(data["leftOutAlreadyInLibrary"], 2)
+      assert.strictEqual(data["artistsChecked"], 2)
+      assert.isUndefined(data["notes"])
+      // Library reading stopped at the first page of each, once past `since`.
+      const libraryReads = tidalRequests.filter((request) => request.url.pathname.includes("/userCollection"))
+      assert.isFalse(libraryReads.some((request) => request.url.searchParams.get("page[cursor]") === "never-read"))
+    }).pipe(Effect.provide(authorized)))
+
+  it.effect("get_new_releases stops at the request budget and says which artists are left", () =>
+    Effect.gen(function*() {
+      // Budget 40: 2 library pages, 2 name lookups, then 36 discographies.
+      const artistIds = ["a1", "a2", ...Array.from({ length: 38 }, (_, i) => `x${i + 3}`)]
+      const result = yield* callTool("get_new_releases", { artistIds, since: "2024-11-11" })
+      assert.isFalse(result.isError, JSON.stringify(result.content))
+      const data = (result.structuredContent as { data: Record<string, any> }).data
+      assert.lengthOf(data["remainingArtistIds"], 4)
+      assert.notInclude(data["remainingArtistIds"], "a1")
+      assert.strictEqual(data["artistsChecked"], 36)
+      assert.match(data["notes"][0], /remainingArtistIds/)
+      assert.lengthOf(data["releases"], 2)
+    }).pipe(Effect.provide(authorized)))
+
+  it.effect("get_my_collection maps sorts to TIDAL's", () =>
+    Effect.gen(function*() {
+      const result = yield* callTool("get_my_collection", { type: "albums", sort: "releaseDate" })
+      assert.isFalse(result.isError, JSON.stringify(result.content))
+      const read = tidalRequests.findLast((request) => request.url.pathname.includes("/userCollectionAlbums/"))!
+      assert.deepStrictEqual(read.url.searchParams.getAll("sort"), ["-releaseDate"])
+
+      const unsupported = yield* callTool("get_my_collection", { type: "artists", sort: "releaseDate" })
+      assert.isTrue(unsupported.isError)
     }).pipe(Effect.provide(authorized)))
 
   it.effect("fetches the TIDAL catalogue token once and reuses it", () =>

@@ -29,9 +29,9 @@ export const App = (options: AppOptions) =>
   Layer.unwrap(Effect.gen(function*() {
     const currentAuth = yield* CurrentAuth.make({ ...options.auth, mcpPath: MCP_PATH })
     return Layer.mergeAll(
-      layerHttp({ path: MCP_PATH }),
+      // The auth middleware is what provides the MCP tools' `CurrentTidalUser`.
+      layerHttp({ path: MCP_PATH }).pipe(Layer.provide(McpAuth.layer({ path: MCP_PATH, currentAuth }))),
       Pages.layer(currentAuth),
-      McpAuth.layer({ path: MCP_PATH, currentAuth }),
       HttpRouter.add(
         "GET",
         "/",
