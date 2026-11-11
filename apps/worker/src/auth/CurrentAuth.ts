@@ -14,8 +14,11 @@ import { workersFetchClientMetadata } from "./ClientMetadata.ts"
 export class AuthDb extends Context.Service<AuthDb, AuthDatabase>()("@tidal-mcp/worker/AuthDb") {}
 
 export interface AuthSettings {
-  /** `BETTER_AUTH_SECRET`: signs cookies and OAuth state, encrypts stored TIDAL tokens. */
-  readonly secret: Redacted.Redacted<string>
+  /**
+   * `BETTER_AUTH_SECRET`: signs cookies and OAuth state, encrypts stored TIDAL tokens.
+   * An Effect because on Workers it is an alchemy binding, readable only once the Worker is running.
+   */
+  readonly secret: Effect.Effect<Redacted.Redacted<string>>
   /** `ALLOWED_USERS`: TIDAL user ids, usernames or verified emails. */
   readonly allowedUsers: string
   readonly mcpPath: `/${string}`
@@ -58,12 +61,12 @@ export const make = Effect.fnUntraced(function*(settings: AuthSettings) {
   const allowlist = Allowlist.parse(settings.allowedUsers)
   const instances = new WeakMap<object, Map<string, CurrentAuth>>()
 
-  const create = (database: AuthDatabase, origin: string): CurrentAuth => {
+  const create = (database: AuthDatabase, origin: string, secret: Redacted.Redacted<string>): CurrentAuth => {
     const auth = makeAuth({
       origin,
       mcpPath: settings.mcpPath,
       database,
-      secret: Redacted.value(settings.secret),
+      secret: Redacted.value(secret),
       allowlist,
       fetchClientMetadata: settings.fetchClientMetadata ?? workersFetchClientMetadata,
       tidal: {
@@ -91,7 +94,7 @@ export const make = Effect.fnUntraced(function*(settings: AuthSettings) {
     }
     let current = byOrigin.get(origin)
     if (current === undefined) {
-      current = create(database, origin)
+      current = create(database, origin, yield* settings.secret)
       byOrigin.set(origin, current)
     }
     return current

@@ -338,7 +338,7 @@ const fetchClientMetadata = async (input: RequestInfo | URL) => {
 const handler = HttpRouter.toWebHandler(
   App({
     auth: {
-      secret: Redacted.make("test-better-auth-secret-at-least-32-characters"),
+      secret: Effect.succeed(Redacted.make("test-better-auth-secret-at-least-32-characters")),
       allowedUsers: "alice, someone-else@example.com",
       fetchClientMetadata
     },
